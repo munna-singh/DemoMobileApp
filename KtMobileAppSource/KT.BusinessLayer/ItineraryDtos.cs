@@ -97,4 +97,21 @@ namespace KT.BusinessLayer
         public int DateTypes { get; set; }
         public int[] DateValues { get; set; }
     }
+
+
+    public class ItineraryDayDto
+    {
+        public int ItineraryDayId { get; set; }
+        public int Day { get; set; }
+        public int ItineraryId { get; set; }
+        public string Notes { get; set; }
+        public bool Deleted { get; set; }
+        public string ItineraryDayDate { get; set; }
+        public bool IsCustomDescription { get; set; }
+        public string PictureId { get; set; }
+        public string CustomServiceDesc { get; set; } //not part of actual dto - added for poc
+        public string LocationName { get; set; } //not part of actual dto - added for poc 
+    }
+
+
 }
