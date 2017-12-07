@@ -6,6 +6,11 @@ namespace KT.BusinessLayer.Interface
 {
     public interface ITripService
     {
-        ItineraryDto GetItinerary(string tripRefNumber);     
+        ItineraryDto GetItinerary(string tripRefNumber);
+
+        ItineraryDto[] GetItineries();
+
+        ItineraryDayDto[] GetItineraryDays(int itinearyId);
+
     }
 }
