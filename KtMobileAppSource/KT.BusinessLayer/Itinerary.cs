@@ -152,7 +152,7 @@ namespace KT.BusinessLayer
                     Notes= "AK 5995EB 14:00 14:40\r\nWB2689",
                     CustomServiceDesc = "Tour - Private - Transportation - 4X4 - Kenya\r\nVisit Giraffe Center & David Sheldrick Elephant Orphanage - Entrance Paid Locally\r\nAir - Nairobi - Masai Mara [Direct (45min)] - SL\r\nPark Fee - Included" +
                             "Transfer - Airstrip Pick Up & Game Drive - 4X4 - Kenya\r\nDinner (included)\r\nAngama Mara (BLD) (Tented Suite (Package))",
-                    LocationName = "NAIROBI\r\nMASAI MARA"
+                    LocationName = "NAIROBI - MASAI MARA"
                 },
                 new ItineraryDayDto() {
                     Day= 3,
@@ -160,7 +160,23 @@ namespace KT.BusinessLayer
                     Notes= "WB2689",
                     CustomServiceDesc = "Tour - Private - Morning Game Drive - 4X4 - Kenya\r\nLunch (included)" +
                         "Tour - Private - Afternoon Game Drive - Big 5\r\nPark Fee - Included \r\nDinner (included)Angama Mara (BLD) (Tented Suite (Package))",
-                    LocationName = "NAIROBI\r\nMASAI MARA"
+                    LocationName = "Australia"
+                },
+                new ItineraryDayDto() {
+                    Day= 4,
+                    ItineraryDayDate = "Jul 27, 2017",
+                    Notes= "WB2689",
+                    CustomServiceDesc = "Sky dive - All equipment (included)" +
+                        "Tour - Private - Included \r\nDinner (included)Angama Mara (BLD) (Tented Suite (Package))",
+                    LocationName = "Australia- Sydney"
+                },
+                new ItineraryDayDto() {
+                    Day= 5,
+                    ItineraryDayDate = "Jul 28, 2017",
+                    Notes= "WB2689",
+                    CustomServiceDesc = "Bungie Jump - Kenya\r\nLunch (included)" +
+                        "Big Park Fee - Included \r\nDinner (included)Angama Mara (BLD) (Tented Suite (Package))",
+                    LocationName = "Austria"
                 }
             };
 
