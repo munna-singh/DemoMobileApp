@@ -20,7 +20,7 @@ namespace KtMobileApp.ViewModels
 
         public ItineraryDetailsViewModel()
         {
-            Title = "Itinerary Details";
+            Title = "My Trip";
             ItineraryDailyBreakDown = new ObservableCollection<ItineraryDailyBreakDown>();
             LoadItineraryCommand = new Command(() => ExecuteLoadItemsCommand());
         }
@@ -49,9 +49,17 @@ namespace KtMobileApp.ViewModels
                     newItem.DayNumber = dto.Day;
                     newItem.Location = dto.LocationName;
                     newItem.TripDayDate = dto.ItineraryDayDate;
+
+                    //Check for past days
                     if (startDate < DateTime.Today)
                     {
                         newItem.IsPast = true;                        
+                    }
+                   
+                    //Set selected item background color for current day
+                    if (startDate == DateTime.Today)
+                    {
+                        newItem.CurrentTripDaySelectedItem = Color.FromHex("FFDEAD");
                     }
                     newItem.ImageResourcePassedPath = "KtMobileApp.Assets.Images.checked_48_48.png";
                     newItem.ImageResourceActivityPath = $"KtMobileApp.Assets.Images.Activity_{cntr}_128_128.png";
@@ -61,13 +69,7 @@ namespace KtMobileApp.ViewModels
                     //Add next day
                     startDate =  startDate.AddDays(1);
                 }
-
-                //ItineraryDailyBreakDown.AddRange(itineraryManager.GetItineraryDays(1));
-
-                //ItineraryDailyBreakDown.Add(new Models.ItineraryDailyBreakDown() { Header = "Water games", Description = "Playing in water park", DayNumber = "1", IsPast = true,  ImageResourceActivityPath= "KtMobileApp.Assets.Images.Activity.jpg", ImageResourceCheckedPath = "KtMobileApp.Assets.Images.checked_48_48.png" });
-                //ItineraryDailyBreakDown.Add(new Models.ItineraryDailyBreakDown() { Header = "Ground games", Description = "Playing Footbal", DayNumber = "2", IsPast = false,  ImageResourceActivityPath = "KtMobileApp.Assets.Images.Activity.jpg", ImageResourceCheckedPath = "KtMobileApp.Assets.Images.checked_48_48.png" });
-                //ItineraryDailyBreakDown.Add(new Models.ItineraryDailyBreakDown() { Header = "Mountain Climbing", Description = "Mountain trecking", DayNumber = "3", IsPast = true, ImageResourceActivityPath = "KtMobileApp.Assets.Images.Activity.jpg" , ImageResourceCheckedPath = "KtMobileApp.Assets.Images.checked_48_48.png" });
-                //ItineraryDailyBreakDown.Add(new Models.ItineraryDailyBreakDown() { Header = "Camp Fire", Description = "Camp fire in resort", DayNumber = "4", IsPast = false,  ImageResourceActivityPath = "KtMobileApp.Assets.Images.Activity.jpg" });
+                
             }
             catch (Exception ex)
             {

@@ -12,7 +12,6 @@ namespace KtMobileApp
 		{
 			InitializeComponent();
 
-
             MainPage = new MainPage();
         }
 

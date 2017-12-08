@@ -29,6 +29,8 @@ namespace KtMobileApp.Models
             }
         }
 
+        public Color CurrentTripDaySelectedItem { get; set; }
+
         public ImageSource ImageSourceActivity
         {
             get
