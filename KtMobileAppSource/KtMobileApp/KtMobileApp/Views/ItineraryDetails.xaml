@@ -15,11 +15,12 @@
                  RefreshCommand="{Binding LoadItineraryCommand}"
                  IsPullToRefreshEnabled="true"
                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                 CachingStrategy="RecycleElement" >
+                 CachingStrategy="RecycleElement" 
+                      >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid>
+                            <Grid BackgroundColor="{Binding CurrentTripDaySelectedItem}">
                                 <Grid.Padding>
                                     <OnPlatform x:TypeArguments="Thickness" iOS="10,5" Android="10,5" WinPhone="20,25"/>
                                 </Grid.Padding>
@@ -27,7 +28,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <StackLayout Padding="8"
                                              Grid.Column="0"
@@ -47,7 +48,7 @@
                                     <Label Text="{Binding TripDayDate}" FontSize="Small" LineBreakMode="WordWrap"/>
                                 </StackLayout>                               
                                 <StackLayout Grid.Column="3" Padding="2"                                             
-                                             VerticalOptions="Center" HorizontalOptions="End" Orientation="Horizontal"  >
+                                             VerticalOptions="Center" HorizontalOptions="EndAndExpand" Orientation="Horizontal"  >
                                     <Image Source="{Binding ImageSourcePassed}" ></Image>
                                 </StackLayout>
                             </Grid>

@@ -8,26 +8,30 @@
     <OutputPath>bin\Debug</OutputPath>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Assets\Images\Activity.jpg" />
+  <ItemGroup>    
     <None Remove="Assets\Images\Activity_1_128_128.png" />
     <None Remove="Assets\Images\Activity_2_128_128.png" />
     <None Remove="Assets\Images\Activity_3_128_128.png" />
     <None Remove="Assets\Images\Activity_4_128_128.png" />
     <None Remove="Assets\Images\Activity_5_128_128.png" />
     <None Remove="Assets\Images\checked_48_48.png" />
+    <None Remove="Assets\Images\Map_64_64.png" />
+    <None Remove="Assets\Images\message_64_64.png" />
+    <None Remove="Assets\Images\Settings_64_64.png" />
+    <None Remove="Assets\Images\trip_64_64.png" />   
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Images\Activity.jpg">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Assets\Images\Activity_1_128_128.png" />
     <EmbeddedResource Include="Assets\Images\Activity_2_128_128.png" />
     <EmbeddedResource Include="Assets\Images\Activity_3_128_128.png" />
     <EmbeddedResource Include="Assets\Images\Activity_4_128_128.png" />
     <EmbeddedResource Include="Assets\Images\Activity_5_128_128.png" />
     <EmbeddedResource Include="Assets\Images\checked_48_48.png" />
+    <EmbeddedResource Include="Assets\Images\Map_64_64.png" />
+    <EmbeddedResource Include="Assets\Images\message_64_64.png" />
+    <EmbeddedResource Include="Assets\Images\Settings_64_64.png" />
+    <EmbeddedResource Include="Assets\Images\trip_64_64.png" />   
   </ItemGroup>
 
   <ItemGroup>

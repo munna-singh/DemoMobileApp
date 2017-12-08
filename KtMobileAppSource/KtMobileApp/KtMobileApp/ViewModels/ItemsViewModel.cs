@@ -17,7 +17,7 @@ namespace KtMobileApp.ViewModels
 
         public ItemsViewModel()
         {
-            Title = "Browse";
+            Title = "Todo";
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
