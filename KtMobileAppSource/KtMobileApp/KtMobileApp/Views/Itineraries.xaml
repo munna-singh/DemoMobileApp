@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:CustomControls="clr-namespace:KtMobileApp.Controls;assembly=KtMobileApp"
+             xmlns:local="clr-namespace:KtMobileApp.MarkupExtensions;assembly=KtMobileApp"
+             x:Class="KtMobileApp.Views.Itineraries"
+             Title="{Binding Title}" >
+   
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView x:Name="ItemsListView" 
+                ItemsSource="{Binding ItineraryDailyBreakDown}"
+                VerticalOptions="FillAndExpand"
+                 HasUnevenRows="true"
+                 RefreshCommand="{Binding LoadItineraryCommand}"
+                 IsPullToRefreshEnabled="true"
+                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                 CachingStrategy="RecycleElement" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image HorizontalOptions="Center" Source="{Binding ImageSourceActivity}"  Grid.Row="0"     Grid.Column="0"/>
+                                <Label HorizontalOptions="Center" Text="{Binding Location}" TextColor="Black"  Grid.Row="0"    Grid.Column="0"/>
+                            </Grid>
+                            <!--<Grid>
+                                <Grid.Padding>
+                                    <OnPlatform x:TypeArguments="Thickness" iOS="10,5" Android="10,5" WinPhone="20,25"/>
+                                </Grid.Padding>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    --><!--<ColumnDefinition Width="Auto"/>-->
+                                    <!--<ColumnDefinition Width="40"/>--><!--
+                                </Grid.ColumnDefinitions>
+                                --><!--<StackLayout Padding="8"
+                                             Grid.Column="0"
+                                             
+                                             VerticalOptions="Center" BackgroundColor="#FFDEAD" >
+                                    <Label Text="DAY" FontSize="Medium"  TextColor="#F5F5F5" HorizontalOptions="CenterAndExpand" LineBreakMode="NoWrap"/>
+                                    <Label Text="{Binding DayNumber}" FontSize="Medium" TextColor="#F5F5F5" HorizontalOptions="CenterAndExpand" LineBreakMode="NoWrap"/>
+                                </StackLayout>--><!--
+                                <StackLayout Grid.Column="1" Padding="2"                                             
+                                             VerticalOptions="Center" >
+                                    <Image Source="{Binding ImageSourceActivity}" ></Image>                                  
+                                </StackLayout>                              
+                                --><!--<StackLayout Grid.Column="2"
+                                             Padding="2"                                            
+                                             VerticalOptions="Center">
+                                    <Label Text="{Binding Location}" FontSize="Small"  TextColor="#3498DB" LineBreakMode="WordWrap"/>
+                                    --><!--<Label Text="{Binding TripDayDate}" FontSize="Small" LineBreakMode="WordWrap"/>--><!--
+                                </StackLayout>-->                               
+                                <!--<StackLayout Grid.Column="3" Padding="2"                                             
+                                             VerticalOptions="Center" HorizontalOptions="End" Orientation="Horizontal"  >
+                                    <Image Source="{Binding ImageSourcePassed}" ></Image>
+                                </StackLayout>--><!--
+                            </Grid>-->
+                        </ViewCell>
+                    </DataTemplate>                    
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
