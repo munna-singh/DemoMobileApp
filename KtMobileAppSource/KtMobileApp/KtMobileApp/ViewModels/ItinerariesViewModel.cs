@@ -16,10 +16,13 @@ namespace KtMobileApp.ViewModels
         public Command LoadItineraryCommand { get; set; }
 
         public string Description { get; set; }
-        public string DetailId { get; set; }        
+        public string DetailId { get; set; }
 
-        public ItinerariesViewModel()
+        private INavigation _navigation; // HERE
+
+        public ItinerariesViewModel(INavigation MainPageNavigation)
         {
+            _navigation = MainPageNavigation;
             Title = "Itinerary Details";
             ItineraryDailyBreakDown = new ObservableCollection<ItineraryDailyBreakDown>();
             LoadItineraryCommand = new Command(() => ExecuteLoadItemsCommand());
@@ -42,7 +45,7 @@ namespace KtMobileApp.ViewModels
                 foreach(ItineraryDayDto dto in itineraryDailyBreakdown)
                 {
                     cntr++;
-                    var newItem = new ItineraryDailyBreakDown();
+                    var newItem = new ItineraryDailyBreakDown(_navigation);
                     //TODO; change after demo
                     dto.ItineraryDayDate = startDate.ToString("MMM dd,yyyy");
 
