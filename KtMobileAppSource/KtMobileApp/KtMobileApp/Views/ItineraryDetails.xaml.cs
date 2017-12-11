@@ -15,11 +15,11 @@ namespace KtMobileApp.Views
 	{
         ItineraryDetailsViewModel viewModel;
 
-        public ItineraryDetails ()
+        public ItineraryDetails()
 		{
-			InitializeComponent ();
-
-            BindingContext = viewModel = new ItineraryDetailsViewModel();
+            InitializeComponent();
+            /*NavigationPage.SetHasNavigationBar(*/
+            BindingContext = viewModel = new ItineraryDetailsViewModel(Navigation);
         }
 
         protected override void OnAppearing()
