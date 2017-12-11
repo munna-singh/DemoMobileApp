@@ -19,7 +19,7 @@ namespace KtMobileApp.Views
 		{
 			InitializeComponent ();
 
-            BindingContext = viewModel = new ItinerariesViewModel();
+            BindingContext = viewModel = new ItinerariesViewModel(Navigation);
         }
 
         protected override void OnAppearing()
