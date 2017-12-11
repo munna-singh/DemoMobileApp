@@ -14,6 +14,8 @@
     <None Remove="Assets\Images\Activity_3_128_128.png" />
     <None Remove="Assets\Images\Activity_4_128_128.png" />
     <None Remove="Assets\Images\Activity_5_128_128.png" />
+    <None Remove="Assets\Images\BannerImage_128_128.jpeg" />
+    <None Remove="Assets\Images\BannerImage_2_256_256.png" />
     <None Remove="Assets\Images\checked_48_48.png" />
     <None Remove="Assets\Images\Map_64_64.png" />
     <None Remove="Assets\Images\message_64_64.png" />
@@ -27,6 +29,7 @@
     <EmbeddedResource Include="Assets\Images\Activity_3_128_128.png" />
     <EmbeddedResource Include="Assets\Images\Activity_4_128_128.png" />
     <EmbeddedResource Include="Assets\Images\Activity_5_128_128.png" />
+    <EmbeddedResource Include="Assets\Images\BannerImage_2_256_256.png" />
     <EmbeddedResource Include="Assets\Images\checked_48_48.png" />
     <EmbeddedResource Include="Assets\Images\Map_64_64.png" />
     <EmbeddedResource Include="Assets\Images\message_64_64.png" />
@@ -70,6 +73,9 @@
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ItineraryCompleteDetails.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ItineraryDetails.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

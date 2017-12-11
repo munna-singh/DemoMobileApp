@@ -5,9 +5,9 @@
              xmlns:local="clr-namespace:KtMobileApp.MarkupExtensions;assembly=KtMobileApp"
              x:Class="KtMobileApp.Views.ItineraryDetails"
              Title="{Binding Title}" >
-   
+
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout >
             <ListView x:Name="ItemsListView" 
                 ItemsSource="{Binding ItineraryDailyBreakDown}"
                 VerticalOptions="FillAndExpand"
@@ -15,45 +15,72 @@
                  RefreshCommand="{Binding LoadItineraryCommand}"
                  IsPullToRefreshEnabled="true"
                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                 CachingStrategy="RecycleElement" 
+                 CachingStrategy="RecycleElement"                 
                       >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid BackgroundColor="{Binding CurrentTripDaySelectedItem}">
-                                <Grid.Padding>
-                                    <OnPlatform x:TypeArguments="Thickness" iOS="10,5" Android="10,5" WinPhone="20,25"/>
-                                </Grid.Padding>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <StackLayout Padding="8"
+                            <StackLayout BackgroundColor="{Binding CurrentTripDaySelectedItem}">
+                                <StackLayout Orientation="Horizontal" Padding="0,10,10,0" >
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ExpandHideData}">
+                                        </TapGestureRecognizer>
+                                    </StackLayout.GestureRecognizers>
+                                    <Grid>
+                                        <Grid.Padding>
+                                            <OnPlatform x:TypeArguments="Thickness" iOS="10,5" Android="10,5" WinPhone="20,25"/>
+                                        </Grid.Padding>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="25*"/>
+                                            <ColumnDefinition Width="20*"/>
+                                            <ColumnDefinition Width="50*"/>
+                                            <ColumnDefinition Width="5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Padding="8"
                                              Grid.Column="0"
-                                             
                                              VerticalOptions="Center" BackgroundColor="#FFDEAD" >
-                                    <Label Text="DAY" FontSize="Medium"  TextColor="#F5F5F5" HorizontalOptions="CenterAndExpand" LineBreakMode="NoWrap"/>
-                                    <Label Text="{Binding DayNumber}" FontSize="Medium" TextColor="#F5F5F5" HorizontalOptions="CenterAndExpand" LineBreakMode="NoWrap"/>
-                                </StackLayout>
-                                <StackLayout Grid.Column="1" Padding="2"                                             
+                                            <Label Text="DAY" FontSize="Medium"  TextColor="#F5F5F5" HorizontalOptions="CenterAndExpand" LineBreakMode="NoWrap"/>
+                                            <Label Text="{Binding DayNumber}" FontSize="Medium" TextColor="#F5F5F5" HorizontalOptions="CenterAndExpand" LineBreakMode="NoWrap"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="1" Padding="2"                                             
                                              VerticalOptions="Center" >
-                                    <Image Source="{Binding ImageSourceActivity}" ></Image>                                  
-                                </StackLayout>                              
-                                <StackLayout Grid.Column="2"
+                                            <Image Source="{Binding ImageSourceActivity}" ></Image>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="2"
                                              Padding="2"                                            
                                              VerticalOptions="Center">
-                                    <Label Text="{Binding Location}" FontSize="Small"  TextColor="#3498DB" LineBreakMode="WordWrap"/>
-                                    <Label Text="{Binding TripDayDate}" FontSize="Small" LineBreakMode="WordWrap"/>
-                                </StackLayout>                               
-                                <StackLayout Grid.Column="3" Padding="2"                                             
-                                             VerticalOptions="Center" HorizontalOptions="EndAndExpand" Orientation="Horizontal"  >
-                                    <Image Source="{Binding ImageSourcePassed}" ></Image>
+                                            <Label Text="{Binding Location}" FontSize="Small"  TextColor="#3498DB" LineBreakMode="WordWrap"/>
+                                            <Label Text="{Binding TripDayDate}" FontSize="Small" LineBreakMode="WordWrap"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="3" Padding="2"                                             
+                                              Orientation="Horizontal" >
+                                            <Image Source="{Binding ImageSourcePastTripDay}" VerticalOptions="Center" HorizontalOptions="End" Opacity="{Binding ImageSourcePastTripDayHide}" ></Image>                                            
+                                        </StackLayout>
+                                    </Grid>
+                                </StackLayout>                                
+                                <StackLayout Padding="10,0,0,0" IsVisible="{Binding ExpandItineraryDayDetails}" >
+                                    <BoxView HeightRequest="1" Color="Gray"  HorizontalOptions="FillAndExpand"></BoxView>
+                                    <Label Text ="Highlits:" FontAttributes="Bold"></Label>
+
+                                    <Label Text="{Binding ItineraryDayDescription}" FontSize="Micro" FontAttributes="None" />
+                                    <!--<CustomControls:CustomLabel IsUnderlined="True" Text="View Details" FontSize="18" HorizontalOptions="CenterAndExpand" />-->
+                                    <Label Text="View Details" 
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Center">
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding OpenItineraryDayDetails}" CommandParameter="{Binding .}" />
+                                        </StackLayout.GestureRecognizers>
+                                        <Label.Effects>
+                                            <!--<local:UnderlineEffect />-->
+                                            <!--<TextCell></TextCell>-->
+                                            
+                                        </Label.Effects>                                        
+                                    </Label>
+                                    <!--<Button Command="{Binding OpenItineraryDayDetails}" Text="View Details" ></Button>-->
                                 </StackLayout>
-                            </Grid>
+                            </StackLayout>
                         </ViewCell>
-                    </DataTemplate>                    
+                    </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
