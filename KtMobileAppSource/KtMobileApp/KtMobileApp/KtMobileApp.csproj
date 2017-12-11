@@ -10,6 +10,11 @@
 
   <ItemGroup>    
     <None Remove="Assets\Images\Activity_1_128_128.png" />
+    <None Remove="Assets\Images\Activity_11_128_128.png" />
+    <None Remove="Assets\Images\Activity_12_128_128.png" />
+    <None Remove="Assets\Images\Activity_13_128_128.png" />
+    <None Remove="Assets\Images\Activity_14_128_128.png" />
+    <None Remove="Assets\Images\Activity_15_128_128.png" />
     <None Remove="Assets\Images\Activity_2_128_128.png" />
     <None Remove="Assets\Images\Activity_3_128_128.png" />
     <None Remove="Assets\Images\Activity_4_128_128.png" />
@@ -23,6 +28,11 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Assets\Images\Activity_1_128_128.png" />
+    <EmbeddedResource Include="Assets\Images\Activity_11_128_128.png" />
+    <EmbeddedResource Include="Assets\Images\Activity_12_128_128.png" />
+    <EmbeddedResource Include="Assets\Images\Activity_13_128_128.png" />
+    <EmbeddedResource Include="Assets\Images\Activity_14_128_128.png" />
+    <EmbeddedResource Include="Assets\Images\Activity_15_128_128.png" />
     <EmbeddedResource Include="Assets\Images\Activity_2_128_128.png" />
     <EmbeddedResource Include="Assets\Images\Activity_3_128_128.png" />
     <EmbeddedResource Include="Assets\Images\Activity_4_128_128.png" />
@@ -57,6 +67,9 @@
     </Compile>
     <Compile Update="Views\ItemsPage.xaml.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Itineraries.xaml.cs">
+      <DependentUpon>Itineraries.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\MainPage.xaml.cs">
       <SubType>Code</SubType>
