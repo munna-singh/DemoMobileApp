@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:CustomControls="clr-namespace:KtMobileApp.Controls;assembly=KtMobileApp"
+             xmlns:local="clr-namespace:KtMobileApp.MarkupExtensions;assembly=KtMobileApp"
+             x:Class="KtMobileApp.Views.Itineraries"
+             Title="{Binding Title}" >
+
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView x:Name="ItemsListView" 
+                ItemsSource="{Binding ItineraryList}"
+                VerticalOptions="FillAndExpand"
+                 HasUnevenRows="true"
+                 RefreshCommand="{Binding LoadItineraryCommand}"
+                 IsPullToRefreshEnabled="true"
+                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                 CachingStrategy="RecycleElement" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid HorizontalOptions="Center" VerticalOptions="Center" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!--<StackLayout>
+                                   
+                                </StackLayout>-->
+                                <Image  Source="{Binding BackImageSource}" Opacity="1"  Grid.Row="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"   Grid.Column="0"/>
+                                <StackLayout VerticalOptions="Center">
+                                    <Label HorizontalOptions="Center"  Text="{Binding TripName}" FontSize="Medium" FontAttributes="Bold" TextColor="Black"   Grid.Column="0"/>
+                                    <Label HorizontalOptions="Center"  Text="{Binding TripSchedule}" FontSize="Small" FontAttributes="Bold" TextColor="Black"   Grid.Column="0"/>
+                                    <Button HorizontalOptions="Center"  Text="View Itinerary"  FontSize="Small" FontAttributes="Bold" TextColor="White"  Grid.Column="0"
+                                          Command="{Binding ViewItineraryDetails}" CommandParameter="{Binding .}" />
+                                </StackLayout>
+                            </Grid>                            
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:KtMobileApp.Views;assembly=KtMobileApp"
+             x:Class="KtMobileApp.Views.ItineraryCompleteDetails"  
+             Title="{Binding Title}"
+             >
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout BackgroundColor="#FFDEAD">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
+                    <Label Text="Day" FontSize="Medium" HorizontalOptions="Center" TextColor="#F5F5F5" LineBreakMode="NoWrap"/>
+                    <Label Text="{Binding DayNumber}" FontSize="Medium" HorizontalOptions="Center" TextColor="#F5F5F5" LineBreakMode="NoWrap"/>
+                </StackLayout>
+                <StackLayout>
+                    <Label Text="{Binding LocationName}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold"  TextColor="#F5F5F5" LineBreakMode="NoWrap"/>
+                    <Label Text="{Binding DayDate}" FontSize="Small" HorizontalOptions="Center" TextColor="#F5F5F5" LineBreakMode="NoWrap"/>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout>
+                <Image Source="{Binding ImageSourcePassed}"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFill" ></Image>
+                <Label Text="{Binding CompleteDescription}" FontSize="Micro" FontAttributes="None"/>
+            </StackLayout>           
+            
+        </StackLayout>       
+    </ContentPage.Content>
+   
+</ContentPage>

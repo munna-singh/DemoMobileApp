@@ -137,9 +137,8 @@ namespace KT.BusinessLayer
                 TermsAndConditions = serviceDto.ServiceDescription.TermsAndConditions,
                 SourceName = serviceDto.SourceLocale.Name,
                 DestName = serviceDto.DestinationLocale.Name,
-                Description = serviceDto.ServiceDescription.Description
+                Description = serviceDto.ServiceDescription.Description         
             };
-
             return itinDayDesc;
         }
 

@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
              x:Class="KtMobileApp.App">
+    <!--<Application.MainPage>
+        <masterDetail:MasterPage />
+    </Application.MainPage>-->
     <Application.Resources>
         <ResourceDictionary>
             <Color x:Key="Primary">#2196F3</Color>
@@ -16,6 +19,24 @@
                 <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="BarTextColor" Value="White" />
             </Style>
+
+            <!--<ControlTemplate x:Key="DetailTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout BackgroundColor="Red">
+                        <Button Text="Detail1"></Button>
+                        <Button Text="Detail2"></Button>
+                        <Button Text="Detail3"></Button>
+                    </StackLayout>
+                    <ContentPresenter Grid.Column="1">
+
+                    </ContentPresenter>
+                </Grid>
+            </ControlTemplate>-->
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

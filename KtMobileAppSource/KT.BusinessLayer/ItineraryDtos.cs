@@ -105,6 +105,7 @@ namespace KT.BusinessLayer
         public string PictureId { get; set; }
         public string CustomServiceDesc { get; set; } //not part of actual dto - added for poc
         public string LocationName { get; set; } //not part of actual dto - added for poc 
+        public bool IsPast { get; set; }
     }
 
     public class TripDto
