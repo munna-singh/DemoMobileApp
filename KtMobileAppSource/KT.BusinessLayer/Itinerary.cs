@@ -1,187 +1,159 @@
 ﻿using KT.BusinessLayer.Interface;
+using KT.BusinessLayer.Service;
+using KT.DAL.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
-
+using System.Threading.Tasks;
+using System.Linq;
 namespace KT.BusinessLayer
 {
     public class Itinerary : ITripService
     {
-        public ItineraryDto GetItinerary(string tripRefNumber)
-        {
-            var itinearary = new ItineraryDto()
-            {
-                Name = "Journey Through Kenya & Tanzania",
-                Schedules = new ScheduleDto[]
-                {
-                    new ScheduleDto()
-                    {
-                        StartDate = "Jun 24, 2017",
-                        EndDate = "Jun 26, 2017"                    
-                    }
-                },
-                BookingAgents = new BookingAgentDto[]
-                {
-                    new BookingAgentDto()
-                    {
-                        BookingAgentId = 1,
-                        Name = "Adrew Drummond",
-                        TripId = 1,
-                        VendorId = 1,
-                        UpdateAction =0
-                    }
-                },                
-                Highlights = "  Kenya (Nairobi, Masai Mara, Chyulu Hills, Amboseli) Tanzania(Serengeti, Ngorongoro)",
-                NumberOfDays = 12,
-                GroupSize = 5,
-                Notes = "Thank you for booking with Kensington Tours. Below you will find a full list of the details we currently have on file for you and some important informationaboutyourtrip..Pleasereviewandverifythisdocument,as wewanttoensurethatallyourpersonalinformation is up todateandaccurate beforeyourdeparture.",
-                Description = "Journey Through Kenya & Tanzania",
-                Photos = new ImageDto[]
-                {
-                    new ImageDto()
-                    {
-                        Name = "FrontImage",
-                        Path = "http://images.traveledge.com/assets/itinerary/banners/kt_General_Wildlife_Wilderbeest%20Migration%20Hot%20Air%20Balloon%20Background_iStock_000021993224MediumNOBALLOON.jpg",
-                    }
-                }                           
 
-            };
-            return itinearary;
+        public const string baseUri = "http://new-api-tmt.kensingtontours.com/api";
+
+        public string apiUri;
+
+        public Itinerary()
+        {
+            //KT db instance
+            var ktdb = new KT.DAL.KTdb();
+
+            //below CreateTable creates table if not exists - any model changes - it alters the table to new model structure
+            ktdb.CreateTable<TripServices>();
+            ktdb.CreateTable<ItineraryDays>();
+            ktdb.CreateTable<ItineraryDayDesc>();
         }
 
-        public ItineraryDto[] GetItineries()
+        public TripServices GetItinerary(string tripRefNumber)
         {
-            var itineraryList = new List<ItineraryDto>();
+            //validate triprefnumber for '-' or emptystring
+            if (string.IsNullOrWhiteSpace(tripRefNumber)) throw new ArgumentException("TripRefNumber cannot be empty");
 
-            //Sample 1 itinerary
-            var itinearary = new ItineraryDto()
+            if (!tripRefNumber.Contains("-")) throw new ArgumentException("Provider a valid trip ref number Ex.Wil5T-000100 ");
+
+            var tripId = tripRefNumber.Split('-')[1];
+
+            //Initialize db
+            var ktdb = new KT.DAL.KTdb();
+
+            //Check if this TripId is already in db then return from db
+            var tripIdInt = Convert.ToInt32(tripId);           
+            var tripServiceId = ktdb.ExecuteScalar<int>("select Id from TripServices where Id = ?", tripIdInt);
+
+            //return from db if pk is already exists
+            if (tripServiceId > 0) return ktdb.Get<TripServices>(x => x.Id == tripIdInt);
+
+            //Call webservice to fetch data related to trip this tripId
+            apiUri = string.Format("{0}/{1}/{2}", baseUri, "trips", tripId);
+
+            var tripObject = new KTApi<TripDto>().Get(apiUri);
+
+            //Insert to db object 
+            var tripService = new TripServices()
             {
-                Name = "Journey Through Kenya & Tanzania",
-                Schedules = new ScheduleDto[]
-                 {
-                    new ScheduleDto()
-                    {
-                        StartDate = "Jun 24, 2017",
-                        EndDate = "Jun 26, 2017"
-                    }
-                 },
-                BookingAgents = new BookingAgentDto[]
-                 {
-                    new BookingAgentDto()
-                    {
-                        BookingAgentId = 1,
-                        Name = "Adrew Drummond",
-                        TripId = 1,
-                        VendorId = 1,
-                        UpdateAction =0
-                    }
-                 },
-                NumberOfDays = 3,
-                GroupSize = 5,
-                Description = "Journey Through Kenya & Tanzania",
-                Photos = new ImageDto[]
-                 {
-                    new ImageDto()
-                    {
-                        Name = "FrontImage",
-                        Path = "http://1-day-tours-in-kenya.com/images/lions_nairobi_national_park.jpg",
-                    }
-                 }
-
+                Id = tripObject.TripId,
+                Name = tripObject.TripName,
+                ItineraryId = Convert.ToInt32(tripObject.SystemOfRecordId.Replace("KT:IT-", "")),
+                RefNum = tripObject.TripReference,
+                StartDate = tripObject.TripStartDate,
+                NoOfDays = tripObject.NumberOfDays,
+                NoOfPeople = tripObject.NumberOfPeople,
+                GroupName = tripObject.GroupName,
+                ImageSrc = "",
+                IsArchived = 0
             };
 
-            itineraryList.Add(itinearary);
+            //insert to db
 
-            //Sample 2 itinerary
-            itinearary = new ItineraryDto()
-            {
-                Name = "Tour through Paris, France",
-                Schedules = new ScheduleDto[]
-                 {
-                    new ScheduleDto()
-                    {
-                        StartDate = "Jun 27, 2017",
-                        EndDate = "Jun 30, 2017"
-                    }
-                 },
-                BookingAgents = new BookingAgentDto[]
-                 {
-                    new BookingAgentDto()
-                    {
-                        BookingAgentId = 1,
-                        Name = "Adrew Drummond",
-                        TripId = 1,
-                        VendorId = 1,
-                        UpdateAction =0
-                    }
-                 },
-                NumberOfDays = 4,
-                GroupSize = 5,
-                Description = "Tour Paris",
-                Photos = new ImageDto[]
-                 {
-                    new ImageDto()
-                    {
-                        Name = "FrontImage",
-                        Path = "https://cache-graphicslib.viator.com/graphicslib/thumbs360x240/7845/SITours/eiffel-tower-summit-priority-access-with-host-in-paris-408219.jpg",
-                    }
-                 }
-
-            };
-
-            itineraryList.Add(itinearary);
-
-            return itineraryList.ToArray();
-
+            var insertCount = ktdb.Insert(tripService);
+            return tripService;
         }
 
-        public ItineraryDayDto[] GetItineraryDays(int itinearyId)
+        public ItineraryDays[] GetItineraryDays(int itineraryId)
         {
-            var itineraryDays = new List<ItineraryDayDto>() {
+            var itineraryDays = new List<ItineraryDays>();
 
-                new ItineraryDayDto() {
-                    Day =1,
-                    ItineraryDayDate = "Jul 24, 2017",
-                    Notes= "248262/3",
-                    CustomServiceDesc = "Emergency Evacuation Insurance\r\nTransfer - Private - Airport - Vehicle/Driver\r\nDinner (not included)\r\nHemingways Nairobi (B) (Deluxe Room)\r\n",
-                    LocationName = "NAIROBI"
-                },
-                new ItineraryDayDto() {
-                    Day =2,
-                    ItineraryDayDate = "Jul 25, 2017",
-                    Notes= "AK 5995EB 14:00 14:40\r\nWB2689",
-                    CustomServiceDesc = "Tour - Private - Transportation - 4X4 - Kenya\r\nVisit Giraffe Center & David Sheldrick Elephant Orphanage - Entrance Paid Locally\r\nAir - Nairobi - Masai Mara [Direct (45min)] - SL\r\nPark Fee - Included" +
-                            "Transfer - Airstrip Pick Up & Game Drive - 4X4 - Kenya\r\nDinner (included)\r\nAngama Mara (BLD) (Tented Suite (Package))",
-                    LocationName = "NAIROBI - MASAI MARA"
-                },
-                new ItineraryDayDto() {
-                    Day= 3,
-                    ItineraryDayDate = "Jul 26, 2017",
-                    Notes= "WB2689",
-                    CustomServiceDesc = "Tour - Private - Morning Game Drive - 4X4 - Kenya\r\nLunch (included)" +
-                        "Tour - Private - Afternoon Game Drive - Big 5\r\nPark Fee - Included \r\nDinner (included)Angama Mara (BLD) (Tented Suite (Package))",
-                    LocationName = "Australia"
-                },
-                new ItineraryDayDto() {
-                    Day= 4,
-                    ItineraryDayDate = "Jul 27, 2017",
-                    Notes= "WB2689",
-                    CustomServiceDesc = "Sky dive - All equipment (included)" +
-                        "Tour - Private - Included \r\nDinner (included)Angama Mara (BLD) (Tented Suite (Package))",
-                    LocationName = "Australia- Sydney"
-                },
-                new ItineraryDayDto() {
-                    Day= 5,
-                    ItineraryDayDate = "Jul 28, 2017",
-                    Notes= "WB2689",
-                    CustomServiceDesc = "Bungie Jump - Kenya\r\nLunch (included)" +
-                        "Big Park Fee - Included \r\nDinner (included)Angama Mara (BLD) (Tented Suite (Package))",
-                    LocationName = "Austria"
+            //validation
+            if (itineraryId <= 0) throw new ArgumentException("Provide a valid ItineraryId.");
+
+            //If this id already exists in db return from db
+            var ktdb = new KT.DAL.KTdb();
+            var itinIdExists = ktdb.ExecuteScalar<int>("select count(ItineraryId) from ItineraryDays where ItineraryId = ?", itineraryId);
+            if (itinIdExists>0) return ktdb.Table<ItineraryDays>().Where(x=>x.ItineraryId== itineraryId).ToArray();
+
+            //hit api to fetch itineraryDays
+            apiUri = string.Format("{0}/{1}/{2}", "itineraries", itineraryId, "days");
+            var itineraryDayList = new KTApi<List<ItineraryDays>>().Get(apiUri);
+
+            if (itineraryDayList != null && itineraryDayList.Count > 0)
+            {
+                //hit api to fetch ItineraryService Data 
+                apiUri = string.Format("itineraries/itineraryId/itineraryservices?itineraryid={0}&request.itineraryId={0}&request.includeServiceDescriptions=true", itineraryId);
+                var itinServiceDto = new KTApi<List<ItineraryServiceDto>>().Get(apiUri);
+                //insert each object to db      
+                foreach (var dayObj in itineraryDayList)
+                {
+                    if (dayObj.Day == null) continue;
+
+                    var day = new ItineraryDays()
+                    {
+                        ItineraryDayId = dayObj.ItineraryDayId,
+                        Day = dayObj.Day,
+                        Deleted = dayObj.Deleted,
+                        ItineraryId = dayObj.ItineraryId,
+                        Notes = dayObj.Notes,
+                        ItineraryDayDate = dayObj.ItineraryDayDate,
+                        IsCustomDescription = dayObj.IsCustomDescription,
+                        PictureId = dayObj.PictureId,                       
+                    };
+
+                    //Save ItineraryDayDesc
+                    var itinDayDesc = GetItineraryService(itinServiceDto.FirstOrDefault(x => x.ItineraryDayId == dayObj.ItineraryDayId && x.ItineraryId == dayObj.ItineraryId));
+                    var insertCount = ktdb.Insert(itinDayDesc);
+
+                    day.Summary = (itinDayDesc.SourceName == itinDayDesc.DestName ? itinDayDesc.SourceName : itinDayDesc.SourceName+ "|" + itinDayDesc.DestName);               //Save ItineraryDays
+                    insertCount = ktdb.Insert(day);
+                    itineraryDays.Add(day);
                 }
-            };
+            }
 
             return itineraryDays.ToArray();
-
         }
+
+        private ItineraryDayDesc GetItineraryService(ItineraryServiceDto serviceDto)
+        {
+            var itinDayDesc = new ItineraryDayDesc()
+            {
+                ItineraryDayId = serviceDto.ItineraryDayId,
+                TimeOfDayId = serviceDto.TimeOfDay.TimeId,
+                CustomDisplayName = serviceDto.CustomDisplayName,
+                ActivityTypeDisplayName = serviceDto.ServiceDescription.ActivityTypeDisplayName,
+                DisplayOrder = serviceDto.DisplayOrder,
+                Alerts = serviceDto.Alerts,
+                TermsAndConditions = serviceDto.ServiceDescription.TermsAndConditions,
+                SourceName = serviceDto.SourceLocale.Name,
+                DestName = serviceDto.DestinationLocale.Name,
+                Description = serviceDto.ServiceDescription.Description         
+            };
+            return itinDayDesc;
+        }
+
+        public ItineraryDayDesc GetItineraryDayDesc(int itineraryDayId)
+        {
+            //validation
+            if (itineraryDayId <0 ) throw new ArgumentException("Provide a valid ItineraryDayId.");
+            //fetch and return from db
+            var ktdb = new KT.DAL.KTdb();
+            var itinIdExists = ktdb.ExecuteScalar<int>("select count(1) from ItineraryDayDesc where ItineraryDayId = ?", itineraryDayId);
+            if (itinIdExists > 0) return ktdb.Get<ItineraryDayDesc>(x => x.ItineraryDayId == itineraryDayId);
+
+            return null;
+        }
+
+
     }
 }

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using SQLite;
+using System;
 
 namespace KT.BusinessLayer
-{
+{   
     public class ItineraryDto
     {
         public int ItineraryId { get; set; }
@@ -36,14 +37,7 @@ namespace KT.BusinessLayer
         public TravelersDto[] Travelers { get; set; }
 }
 
-    public class BookingAgentDto
-    {
-        public int BookingAgentId { get; set; }
-        public string Name { get; set; }
-        public int VendorId { get; set; }
-        public int TripId { get; set; }
-        public int UpdateAction { get; set; }//optional 0,1,2
-    }
+   
 
     public class ImageDto
     {
@@ -112,6 +106,34 @@ namespace KT.BusinessLayer
         public string CustomServiceDesc { get; set; } //not part of actual dto - added for poc
         public string LocationName { get; set; } //not part of actual dto - added for poc 
         public bool IsPast { get; set; }
+    }
+
+    public class TripDto
+    {
+        public int TripId { get; set; }
+        public int CompanyId { get; set; }
+        public string TripReference { get; set; }
+        public string TripName { get; set; }
+        public int MasterTripId { get; set; }
+        public string TourAgentId { get; set; }
+        public string BookedDate { get; set; }
+        public string TripStartDate { get; set; }
+        public string Cancelled { get; set; }
+        public string DateCancelled { get; set; }
+        public int MainContactClientId { get; set; }
+        public string SystemOfRecordId { get; set; }
+        public int NumberOfDays { get; set; }
+        public int NumberOfPeople { get; set; }
+        public int CompanyBrandId { get; set; }
+        public int SalesCoaAllocationId { get; set; }
+        public string IsArchived { get; set; }
+        public string GroupName { get; set; }
+        public string DateCreated { get; set; }
+        public string LastModified { get; set; }
+        public string TripLockId { get; set; }
+        public string ApprovalRequestId { get; set; }
+        public int TRAMSResCardNum { get; set; }
+
     }
 
 
