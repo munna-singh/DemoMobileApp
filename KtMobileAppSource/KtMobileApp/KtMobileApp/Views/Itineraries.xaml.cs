@@ -26,7 +26,7 @@ namespace KtMobileApp.Views
         {
             base.OnAppearing();
 
-            if (viewModel.ItineraryDailyBreakDown.Count == 0)
+            if (viewModel.ItineraryList.Count == 0)
                 viewModel.LoadItineraryCommand.Execute(null);
         }
     }

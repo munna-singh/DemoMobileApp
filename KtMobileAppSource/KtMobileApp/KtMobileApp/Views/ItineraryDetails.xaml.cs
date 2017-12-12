@@ -15,12 +15,20 @@ namespace KtMobileApp.Views
 	{
         ItineraryDetailsViewModel viewModel;
 
-        public ItineraryDetails()
+        public ItineraryDetails(INavigation pageNavigation,ItineraryViewModel itineraryVm)
 		{
             InitializeComponent();
             /*NavigationPage.SetHasNavigationBar(*/
-            BindingContext = viewModel = new ItineraryDetailsViewModel(Navigation);
+
+            //TODO:
+            BindingContext = viewModel = new ItineraryDetailsViewModel(pageNavigation, itineraryVm);
         }
+
+        //public ItineraryDetails()
+        //{
+        //    InitializeComponent();
+        //    BindingContext = viewModel = new ItineraryDetailsViewModel(Navigation);
+        //}
 
         protected override void OnAppearing()
         {
@@ -28,6 +36,8 @@ namespace KtMobileApp.Views
 
             if (viewModel.ItineraryDailyBreakDown.Count == 0)
                 viewModel.LoadItineraryCommand.Execute(null);
+
+            
         }
     }
 }

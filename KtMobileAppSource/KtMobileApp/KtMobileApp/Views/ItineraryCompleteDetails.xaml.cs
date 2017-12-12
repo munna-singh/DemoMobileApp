@@ -30,5 +30,12 @@ namespace KtMobileApp.Views
 
             BindingContext = viewModel;
         }
-	}
+
+        protected override void OnAppearing()
+        {
+            //var master=this.pare
+            //this.ParentView = MainPage;
+            base.OnAppearing();
+        }
+    }
 }

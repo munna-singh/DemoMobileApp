@@ -83,9 +83,6 @@
     <Compile Update="Views\MainPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\NewItemPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>

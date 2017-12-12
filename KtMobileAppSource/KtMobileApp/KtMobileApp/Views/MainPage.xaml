@@ -5,7 +5,7 @@
             x:Class="KtMobileApp.Views.MainPage" >
     
     <!--<views:HomePage Icon="Settings_64_64" IsVisible="False" />-->
-    <views:ItineraryDetails Icon="trip_64_64" />
+    <views:Itineraries Icon="trip_64_64" />
     <views:ItemsPage Icon="Map_64_64" />
     <views:AboutPage Icon="message_64_64" />
     <views:ItemsPage Icon="Settings_64_64" />
