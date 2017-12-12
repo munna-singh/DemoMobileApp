@@ -1,5 +1,6 @@
 ﻿using KT.BusinessLayer;
 using KtMobileApp.Models;
+using KtMobileApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,20 +13,21 @@ namespace KtMobileApp.ViewModels
 {
     public class ItinerariesViewModel : BaseViewModel
     {
-        public ObservableCollection<ItineraryDailyBreakDown> ItineraryDailyBreakDown { get; set; }
+        public ObservableCollection<ItineraryViewModel> ItineraryList { get; set; }
         public Command LoadItineraryCommand { get; set; }
+
+        private INavigation _navigation;
 
         public string Description { get; set; }
         public string DetailId { get; set; }
 
-        private INavigation _navigation; // HERE
 
         public ItinerariesViewModel(INavigation MainPageNavigation)
         {
             _navigation = MainPageNavigation;
-            Title = "Itinerary Details";
-            ItineraryDailyBreakDown = new ObservableCollection<ItineraryDailyBreakDown>();
-            LoadItineraryCommand = new Command(() => ExecuteLoadItemsCommand());
+            Title = "Trips";
+            ItineraryList = new ObservableCollection<ItineraryViewModel>();
+            LoadItineraryCommand = new Command(() => ExecuteLoadItemsCommand());            
         }
 
         void ExecuteLoadItemsCommand()
@@ -37,40 +39,24 @@ namespace KtMobileApp.ViewModels
 
             try
             {
-                ItineraryDailyBreakDown.Clear();
-                Itinerary itineraryManager = new Itinerary();
+                //ItineraryDailyBreakDown.Clear();
+                KT.BusinessLayer.Itinerary itineraryManager = new KT.BusinessLayer.Itinerary();
                 DateTime startDate = DateTime.Today.AddDays(-2);
-                var itineraryDailyBreakdown = itineraryManager.GetItineraryDays(1);
+                var itineraryList = itineraryManager.GetItineries();
                 int cntr = 0;
-                foreach(ItineraryDayDto dto in itineraryDailyBreakdown)
+                foreach(ItineraryDto dto in itineraryList)
                 {
                     cntr++;
-                    var newItem = new ItineraryDailyBreakDown(_navigation);
+                    var newItem = new ItineraryViewModel(_navigation);
                     //TODO; change after demo
-                    dto.ItineraryDayDate = startDate.ToString("MMM dd,yyyy");
+                    newItem.TripId = dto.ItineraryId;
+                    newItem.TripName = dto.Name;                   
+                    newItem.TripSchedule = $"{dto.Schedules[0].StartDate} - {dto.Schedules[0].EndDate}";                   
+                    newItem.BackImagePath = $"KtMobileApp.Assets.Images.Activity_{cntr + 10}_128_128.png";
 
-                    newItem.DayNumber = dto.Day;
-                    newItem.Location = dto.LocationName;
-                    newItem.TripDayDate = dto.ItineraryDayDate;
-                    if (startDate < DateTime.Today)
-                    {
-                        newItem.IsPast = true;                        
-                    }
-                    newItem.ImageResourcePassedPath = "KtMobileApp.Assets.Images.checked_48_48.png";
-                    newItem.ImageResourceActivityPath = $"KtMobileApp.Assets.Images.Activity_{cntr+10}_128_128.png";
-
-                    ItineraryDailyBreakDown.Add(newItem);
-
-                    //Add next day
-                    startDate =  startDate.AddDays(1);
+                    ItineraryList.Add(newItem);
                 }
 
-                //ItineraryDailyBreakDown.AddRange(itineraryManager.GetItineraryDays(1));
-
-                //ItineraryDailyBreakDown.Add(new Models.ItineraryDailyBreakDown() { Header = "Water games", Description = "Playing in water park", DayNumber = "1", IsPast = true,  ImageResourceActivityPath= "KtMobileApp.Assets.Images.Activity.jpg", ImageResourceCheckedPath = "KtMobileApp.Assets.Images.checked_48_48.png" });
-                //ItineraryDailyBreakDown.Add(new Models.ItineraryDailyBreakDown() { Header = "Ground games", Description = "Playing Footbal", DayNumber = "2", IsPast = false,  ImageResourceActivityPath = "KtMobileApp.Assets.Images.Activity.jpg", ImageResourceCheckedPath = "KtMobileApp.Assets.Images.checked_48_48.png" });
-                //ItineraryDailyBreakDown.Add(new Models.ItineraryDailyBreakDown() { Header = "Mountain Climbing", Description = "Mountain trecking", DayNumber = "3", IsPast = true, ImageResourceActivityPath = "KtMobileApp.Assets.Images.Activity.jpg" , ImageResourceCheckedPath = "KtMobileApp.Assets.Images.checked_48_48.png" });
-                //ItineraryDailyBreakDown.Add(new Models.ItineraryDailyBreakDown() { Header = "Camp Fire", Description = "Camp fire in resort", DayNumber = "4", IsPast = false,  ImageResourceActivityPath = "KtMobileApp.Assets.Images.Activity.jpg" });
             }
             catch (Exception ex)
             {

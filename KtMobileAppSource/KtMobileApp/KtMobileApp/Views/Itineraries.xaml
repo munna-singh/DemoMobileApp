@@ -5,11 +5,11 @@
              xmlns:local="clr-namespace:KtMobileApp.MarkupExtensions;assembly=KtMobileApp"
              x:Class="KtMobileApp.Views.Itineraries"
              Title="{Binding Title}" >
-   
+
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name="ItemsListView" 
-                ItemsSource="{Binding ItineraryDailyBreakDown}"
+                ItemsSource="{Binding ItineraryList}"
                 VerticalOptions="FillAndExpand"
                  HasUnevenRows="true"
                  RefreshCommand="{Binding LoadItineraryCommand}"
@@ -19,7 +19,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                            <Grid HorizontalOptions="Center" VerticalOptions="Center" >
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
@@ -28,43 +28,19 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Image HorizontalOptions="Center" Source="{Binding ImageSourceActivity}"  Grid.Row="0"     Grid.Column="0"/>
-                                <Label HorizontalOptions="Center" Text="{Binding Location}" TextColor="Black"  Grid.Row="0"    Grid.Column="0"/>
-                            </Grid>
-                            <!--<Grid>
-                                <Grid.Padding>
-                                    <OnPlatform x:TypeArguments="Thickness" iOS="10,5" Android="10,5" WinPhone="20,25"/>
-                                </Grid.Padding>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    --><!--<ColumnDefinition Width="Auto"/>-->
-                                    <!--<ColumnDefinition Width="40"/>--><!--
-                                </Grid.ColumnDefinitions>
-                                --><!--<StackLayout Padding="8"
-                                             Grid.Column="0"
-                                             
-                                             VerticalOptions="Center" BackgroundColor="#FFDEAD" >
-                                    <Label Text="DAY" FontSize="Medium"  TextColor="#F5F5F5" HorizontalOptions="CenterAndExpand" LineBreakMode="NoWrap"/>
-                                    <Label Text="{Binding DayNumber}" FontSize="Medium" TextColor="#F5F5F5" HorizontalOptions="CenterAndExpand" LineBreakMode="NoWrap"/>
-                                </StackLayout>--><!--
-                                <StackLayout Grid.Column="1" Padding="2"                                             
-                                             VerticalOptions="Center" >
-                                    <Image Source="{Binding ImageSourceActivity}" ></Image>                                  
-                                </StackLayout>                              
-                                --><!--<StackLayout Grid.Column="2"
-                                             Padding="2"                                            
-                                             VerticalOptions="Center">
-                                    <Label Text="{Binding Location}" FontSize="Small"  TextColor="#3498DB" LineBreakMode="WordWrap"/>
-                                    --><!--<Label Text="{Binding TripDayDate}" FontSize="Small" LineBreakMode="WordWrap"/>--><!--
-                                </StackLayout>-->                               
-                                <!--<StackLayout Grid.Column="3" Padding="2"                                             
-                                             VerticalOptions="Center" HorizontalOptions="End" Orientation="Horizontal"  >
-                                    <Image Source="{Binding ImageSourcePassed}" ></Image>
-                                </StackLayout>--><!--
-                            </Grid>-->
+                                <!--<StackLayout>
+                                   
+                                </StackLayout>-->
+                                <Image  Source="{Binding BackImageSource}" Opacity="1"  Grid.Row="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"   Grid.Column="0"/>
+                                <StackLayout VerticalOptions="Center">
+                                    <Label HorizontalOptions="Center"  Text="{Binding TripName}" FontSize="Medium" FontAttributes="Bold" TextColor="Black"   Grid.Column="0"/>
+                                    <Label HorizontalOptions="Center"  Text="{Binding TripSchedule}" FontSize="Small" FontAttributes="Bold" TextColor="Black"   Grid.Column="0"/>
+                                    <Button HorizontalOptions="Center"  Text="View Itinerary"  FontSize="Small" FontAttributes="Bold" TextColor="White"  Grid.Column="0"
+                                          Command="{Binding ViewItineraryDetails}" CommandParameter="{Binding .}" />
+                                </StackLayout>
+                            </Grid>                            
                         </ViewCell>
-                    </DataTemplate>                    
+                    </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </StackLayout>

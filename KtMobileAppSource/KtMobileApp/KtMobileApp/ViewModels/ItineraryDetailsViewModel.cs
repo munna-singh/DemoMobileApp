@@ -17,16 +17,17 @@ namespace KtMobileApp.ViewModels
         public ObservableCollection<ItineraryDailyBreakDown> ItineraryDailyBreakDown { get; set; }
         public Command LoadItineraryCommand { get; set; }
 
-
+        private ItineraryViewModel _itineraryVm;
         private INavigation _navigation; // HERE
 
         public string Description { get; set; }
         public string DetailId { get; set; }
 
-        public ItineraryDetailsViewModel(INavigation MainPageNavigation)
+        public ItineraryDetailsViewModel(INavigation MainPageNavigation, ItineraryViewModel itineraryVm)
         {
-            Title = "Trips";
+            Title = "Itinerary Details";
             _navigation = MainPageNavigation;
+            _itineraryVm = itineraryVm;
             ItineraryDailyBreakDown = new ObservableCollection<ItineraryDailyBreakDown>();
             LoadItineraryCommand = new Command(() => ExecuteLoadItemsCommand());            
         }
@@ -41,7 +42,7 @@ namespace KtMobileApp.ViewModels
             try
             {
                 ItineraryDailyBreakDown.Clear();
-                Itinerary itineraryManager = new Itinerary();
+                KT.BusinessLayer.Itinerary itineraryManager = new KT.BusinessLayer.Itinerary();
                 DateTime startDate = DateTime.Today.AddDays(-2);
                 var itineraryDailyBreakdown = itineraryManager.GetItineraryDays(1);
                 int cntr = 0;

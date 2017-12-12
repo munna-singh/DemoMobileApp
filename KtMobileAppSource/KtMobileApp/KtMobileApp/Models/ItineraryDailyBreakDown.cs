@@ -14,12 +14,14 @@ namespace KtMobileApp.Models
     {
         private INavigation _pageNavigation;
 
+       
         public ItineraryDailyBreakDown(INavigation MainPageNavigation)
         {
             Title = "Itinerary Name";
             _pageNavigation = MainPageNavigation;
-            //DeleteCommand = new Command<ItineraryDailyBreakDown>(async (model) => await DeleteExec(model));
+            
             OpenItineraryDayDetails = new Command<ItineraryDailyBreakDown>(async (model) => await OpenNewPage(model));
+            
         }
 
         public string ImageUri { get; set; }
@@ -67,6 +69,7 @@ namespace KtMobileApp.Models
         
         public async Task OpenNewPage(ItineraryDailyBreakDown objVm)
         {            
+            //MainPage.SetMenu(new ItineraryCompleteDetails(objVm,new Menu() { })
             await _pageNavigation.PushAsync(new ItineraryCompleteDetails(objVm)); //_pageNavigation.PushModalAsync(new Page) ; NOTE: this is for Modal Dialog
         }
 

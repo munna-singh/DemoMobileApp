@@ -64,7 +64,7 @@
 
                                     <Label Text="{Binding ItineraryDayDescription}" FontSize="Micro" FontAttributes="None" />
                                     <!--<CustomControls:CustomLabel IsUnderlined="True" Text="View Details" FontSize="18" HorizontalOptions="CenterAndExpand" />-->
-                                    <Label Text="View Details" 
+                                    <Label Text="View Details >" 
                                            VerticalOptions="Center"
                                            HorizontalOptions="Center">
                                         <StackLayout.GestureRecognizers>
