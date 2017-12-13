@@ -22,11 +22,19 @@
     <None Remove="Assets\Images\BannerImage_128_128.jpeg" />
     <None Remove="Assets\Images\BannerImage_2_256_256.png" />
     <None Remove="Assets\Images\checked_48_48.png" />
+    <None Remove="Assets\Images\Close_32_32.png" />
     <None Remove="Assets\Images\cloud.png" />
+    <None Remove="Assets\Images\Home_128_128.png" />
+    <None Remove="Assets\Images\Home_32_32.png" />
+    <None Remove="Assets\Images\Home_white_32_32.png" />
     <None Remove="Assets\Images\Location_128_128.png" />
     <None Remove="Assets\Images\Map_64_64.png" />
     <None Remove="Assets\Images\message_64_64.png" />
+    <None Remove="Assets\Images\PastTrips_BackCover_16_128_128.png" />
+    <None Remove="Assets\Images\Plus_128_128.png" />
+    <None Remove="Assets\Images\Plus_32_32.png" />
     <None Remove="Assets\Images\Settings_64_64.png" />
+    <None Remove="Assets\Images\StatusDone_128_128.png" />
     <None Remove="Assets\Images\Taj-Mahal.jpg" />
     <None Remove="Assets\Images\trip_64_64.png" />   
   </ItemGroup>
@@ -44,11 +52,19 @@
     <EmbeddedResource Include="Assets\Images\Activity_5_128_128.png" />
     <EmbeddedResource Include="Assets\Images\BannerImage_2_256_256.png" />
     <EmbeddedResource Include="Assets\Images\checked_48_48.png" />
+    <EmbeddedResource Include="Assets\Images\Close_32_32.png" />
     <EmbeddedResource Include="Assets\Images\cloud.png" />
+    <EmbeddedResource Include="Assets\Images\Home_128_128.png" />
+    <EmbeddedResource Include="Assets\Images\Home_32_32.png" />
+    <EmbeddedResource Include="Assets\Images\Home_white_32_32.png" />
     <EmbeddedResource Include="Assets\Images\Location_128_128.png" />
     <EmbeddedResource Include="Assets\Images\Map_64_64.png" />
     <EmbeddedResource Include="Assets\Images\message_64_64.png" />
+    <EmbeddedResource Include="Assets\Images\PastTrips_BackCover_16_128_128.png" />
+    <EmbeddedResource Include="Assets\Images\Plus_128_128.png" />
+    <EmbeddedResource Include="Assets\Images\Plus_32_32.png" />
     <EmbeddedResource Include="Assets\Images\Settings_64_64.png" />
+    <EmbeddedResource Include="Assets\Images\StatusDone_128_128.png" />
     <EmbeddedResource Include="Assets\Images\Taj-Mahal.jpg" />
     <EmbeddedResource Include="Assets\Images\trip_64_64.png" />   
   </ItemGroup>
@@ -91,6 +107,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\HomePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ImportItinerary.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ItineraryCompleteDetails.xaml">

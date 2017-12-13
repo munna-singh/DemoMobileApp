@@ -8,7 +8,7 @@ namespace KtMobileApp.ViewModels
     public class ItineraryCompleteDetailsViewModel:BaseViewModel
     {
         public string ImageBanner { get; set; }
-        public int DayNumber { get; set; }
+        public string DayNumber { get; set; }
         public string LocationName { get; set; }
         public string DayDate { get; set; }
         public string CompleteDescription { get; set; }

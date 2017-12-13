@@ -154,6 +154,17 @@ namespace KT.BusinessLayer
             return null;
         }
 
+        public List<TripServices> GetItineraryList()
+        {
+           
+            //fetch and return from db
+            var ktdb = new KT.DAL.KTdb();
+            var itinIdExists = ktdb.ExecuteScalar<int>("select count(1) from TripServices");
+            if (itinIdExists > 0) return ktdb.Table<TripServices>().ToList();
+
+            return null;
+        }
+
 
     }
 }

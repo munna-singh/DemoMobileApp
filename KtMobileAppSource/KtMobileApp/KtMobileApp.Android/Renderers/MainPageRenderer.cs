@@ -14,7 +14,7 @@ using Xamarin.Forms.Platform.Android;
 using Color = Android.Graphics.Color;
 using content = Android.Content;
 
-//[assembly: ExportRenderer(typeof(MainPage), typeof(MainPageRenderer))]
+[assembly: ExportRenderer(typeof(MainPage), typeof(MainPageRenderer))]
 
 namespace KtMobileApp.Android.Renderers
 {

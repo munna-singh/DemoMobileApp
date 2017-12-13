@@ -24,12 +24,13 @@ namespace KtMobileApp.Models
             
         }
 
+        public int itineraryDayId { get; set; }
         public string ImageUri { get; set; }
         public string Location { get; set; }
         public string TripDayDate { get; set; }
         public bool IsPast { get; set; }
         public string IsPastText { get; set; }
-        public int DayNumber { get; set; }
+        public string DayNumber { get; set; }
         public string CheckImageUri { get; set; }
         public string ItineraryDayDescription { set; get; }
         public string ImageResourceActivityPath { set; get; }

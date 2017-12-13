@@ -1,4 +1,5 @@
 ﻿using KT.BusinessLayer;
+using KT.DAL.Models;
 using KtMobileApp.Models;
 using KtMobileApp.Views;
 using System;
@@ -15,11 +16,38 @@ namespace KtMobileApp.ViewModels
     {
         public ObservableCollection<ItineraryViewModel> ItineraryList { get; set; }
         public Command LoadItineraryCommand { get; set; }
+        public Command ImportItineraryScreen { get; set; }
 
         private INavigation _navigation;
 
         public string Description { get; set; }
         public string DetailId { get; set; }
+        public string PastTripsBackCoverImagePath { get; set; }
+        public ImageSource PastItinerariesBackImageSource
+        {
+            get
+            {
+                return ImageSource.FromResource(PastTripsBackCoverImagePath);
+            }
+        }
+
+        public string MenuAddItineraryImagePath { get; set; }
+        public ImageSource MenuAddItineraryImageSource
+        {
+            get
+            {
+                return ImageSource.FromResource(MenuAddItineraryImagePath);
+            }
+        }
+
+        public string MenuHomeImagePath { get; set; }
+        public ImageSource MenuHomeImageSource
+        {
+            get
+            {
+                return ImageSource.FromResource(MenuHomeImagePath);
+            }
+        }
 
 
         public ItinerariesViewModel(INavigation MainPageNavigation)
@@ -27,7 +55,8 @@ namespace KtMobileApp.ViewModels
             _navigation = MainPageNavigation;
             Title = "Trips";
             ItineraryList = new ObservableCollection<ItineraryViewModel>();
-            LoadItineraryCommand = new Command(() => ExecuteLoadItemsCommand());            
+            LoadItineraryCommand = new Command(() => ExecuteLoadItemsCommand());
+            ImportItineraryScreen = new Command(async () => await OpenPage());
         }
 
         void ExecuteLoadItemsCommand()
@@ -42,16 +71,18 @@ namespace KtMobileApp.ViewModels
                 //ItineraryDailyBreakDown.Clear();
                 KT.BusinessLayer.Itinerary itineraryManager = new KT.BusinessLayer.Itinerary();
                 DateTime startDate = DateTime.Today.AddDays(-2);
-                var itineraryList = itineraryManager.GetItineries();
+                var itineraryList = itineraryManager.GetItineraryList();
                 int cntr = 0;
-                foreach(ItineraryDto dto in itineraryList)
+                foreach(TripServices dto in itineraryList)
                 {
                     cntr++;
                     var newItem = new ItineraryViewModel(_navigation);
+                    DateTime tripStartDt = DateTime.Parse(dto.StartDate);
+
                     //TODO; change after demo
                     newItem.TripId = dto.ItineraryId;
                     newItem.TripName = dto.Name;                   
-                    newItem.TripSchedule = $"{dto.Schedules[0].StartDate} - {dto.Schedules[0].EndDate}";                   
+                    newItem.TripSchedule = $"{tripStartDt.ToString("MMM ddd, yyyy")} - {tripStartDt.AddDays(dto.NoOfDays).ToString("MMM dd, yyyy")}";                   
                     newItem.BackImagePath = $"KtMobileApp.Assets.Images.Activity_{cntr + 10}_128_128.png";
 
                     ItineraryList.Add(newItem);
@@ -66,6 +97,12 @@ namespace KtMobileApp.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        public async Task OpenPage()
+        {
+            //TODO
+            await _navigation.PushModalAsync(new ImportItinerary()); //_pageNavigation.PushModalAsync(new Page) ; NOTE: this is for Modal Dialog
         }
 
     }

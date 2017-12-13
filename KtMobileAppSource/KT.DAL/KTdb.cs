@@ -8,7 +8,7 @@ namespace KT.DAL
 {
     public class KTdb : SQLiteConnection
     {
-        public KTdb(bool storeDataTimeAsTicks=true) : base(@"C:\travelEdge\KT.db", storeDataTimeAsTicks)
+        public KTdb(bool storeDataTimeAsTicks=true) : base(@"KT.db", storeDataTimeAsTicks)
         {
             Trace = true;
         }
