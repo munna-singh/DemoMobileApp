@@ -2,9 +2,9 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:views="clr-namespace:KtMobileApp.Views"
-            x:Class="KtMobileApp.Views.MainPage" >
+            x:Class="KtMobileApp.Views.MainPage" BackgroundImage="{Binding BackImage}">
     
-    <!--<views:HomePage Icon="Settings_64_64" IsVisible="False" />-->
+    <views:HomePage Icon="Settings_64_64"/>
     <views:Itineraries Icon="trip_64_64" />
     <views:ItemsPage Icon="Map_64_64" />
     <views:AboutPage Icon="message_64_64" />
