@@ -1,29 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KtMobileApp.Views.HomePage" BackgroundImage="{Binding BackImage}" >
-    
-    <ContentPage.Content>       
+             x:Class="KtMobileApp.Views.HomePage" BackgroundImage="{Binding BackImagePath}">
+
+    <ContentPage.Content>
         <StackLayout>
-            <StackLayout Padding="20">
-                <StackLayout Orientation="Horizontal">
-                    <!--<Image Source="{Binding LocationImage}" WidthRequest="20" HeightRequest="20"/>                 
-                    <Label Text="{Binding CurrentLocation}" FontSize="20" TextColor="White"></Label>                 
-                    <Label Text="          " FontSize="20" TextColor="White"></Label>                 
-                    <Image Source="{Binding WeatherImage}" WidthRequest="30" HeightRequest="30"/>-->
-                    <Image Source="{Binding LocationImage}" VerticalOptions="Center" HorizontalOptions="End" ></Image>
-                    <!--<Label Text="{Binding CurrentLocation}" FontSize="20" TextColor="White"></Label>  -->
-                    <!--<Label Text="          " FontSize="20" TextColor="White"></Label>  -->
-                    <!--<Image Source="{Binding WeatherImage}" VerticalOptions="Center" HorizontalOptions="End" ></Image>    -->
-                    <Label Text="{Binding CurrentLocation}" FontSize="20" TextColor="White"></Label>
-                    <Label Text="          " FontSize="20" TextColor="White"></Label>
-                    <Image Source="{Binding WeatherImage}" VerticalOptions="Center" HorizontalOptions="End" ></Image>
-                    <Label Text="73 F" TextColor="White" FontSize="20" />
+            <Grid HorizontalOptions="Center" VerticalOptions="Start" Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="60*"/>
+                    <ColumnDefinition Width="30*"/>
+                </Grid.ColumnDefinitions>
+                <StackLayout Grid.Column="0">
+                    <Image HorizontalOptions="Start" Source="{Binding LocationImage}"/>
                 </StackLayout>
-            </StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                <StackLayout Grid.Column="1" WidthRequest="500" Orientation="Vertical">
+                    <Label  Text="{Binding CurrentLocation}"  FontSize="Large" TextColor="White" />
+                    <Label  Text="{Binding Country }"  FontSize="Micro" TextColor="White"/>
+                </StackLayout>
+                <StackLayout Grid.Column="2" Margin="5">
+                    <Image HorizontalOptions="Start" Source="{Binding WeatherImage}"  Margin="3"/>
+                </StackLayout>
+                <Label HorizontalOptions="End" Text="73 F" FontSize="Micro" TextColor="White" Grid.Column="2"/>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

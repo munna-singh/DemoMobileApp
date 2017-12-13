@@ -20,12 +20,14 @@ namespace KtMobileApp.Views
 			InitializeComponent ();
             viewModel = new HomePageViewModel();
 
-            viewModel.LocationImagePath = "KtMobileApp.Assets.Images.Location_128_128.png";
-            viewModel.WeatherImagePath = "KtMobileApp.Assets.Images.cloud.png";
-            viewModel.BackImagePath = "KtMobileApp.Assets.Images.Taj-Mahal.jpg";
-            viewModel.CurrentLocation = "India";
+			viewModel.LocationImagePath = "KtMobileApp.Assets.Images.locationWhite.png";
+			viewModel.WeatherImagePath = "KtMobileApp.Assets.Images.WeatherCloud.png";
+			viewModel.BackImagePath = "TajMahal.jpg";
+			viewModel.CurrentLocation = "AGRA";
+			viewModel.Country = "India";
+			BindingContext = viewModel;
 
-            BindingContext = viewModel;
+			BindingContext = viewModel;
 
         }
 	}
