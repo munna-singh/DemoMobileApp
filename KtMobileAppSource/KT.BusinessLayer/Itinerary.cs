@@ -13,7 +13,7 @@ namespace KT.BusinessLayer
     public class Itinerary : ITripService
     {
 
-        public const string baseUri = "http://new-api-tmt.kensingtontours.com/api";
+        //public const string baseUri = "http://new-api-tmt.kensingtontours.com/api";
 
         public string apiUri;
 
@@ -48,7 +48,7 @@ namespace KT.BusinessLayer
             if (tripServiceId > 0) return ktdb.Get<TripServices>(x => x.Id == tripIdInt);
 
             //Call webservice to fetch data related to trip this tripId
-            apiUri = string.Format("{0}/{1}/{2}", baseUri, "trips", tripId);
+            apiUri = string.Format("{0}/{1}", "trips", tripId);
 
             var tripObject = new KTApi<TripDto>().Get(apiUri);
 
