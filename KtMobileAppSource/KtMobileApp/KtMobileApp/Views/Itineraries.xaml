@@ -4,19 +4,17 @@
              xmlns:CustomControls="clr-namespace:KtMobileApp.Controls;assembly=KtMobileApp"
              xmlns:local="clr-namespace:KtMobileApp.MarkupExtensions;assembly=KtMobileApp"
              x:Class="KtMobileApp.Views.Itineraries"
-             Title="{Binding Title}" >
+             >
+    <ContentPage.ToolbarItems>      
+        <ToolbarItem Order="Primary" Icon="Home_128_128.png" Priority="0" StyleId="" Command="{Binding ShowHomeScreen}"  />       
+        <!--<ToolbarItem Order="Primary" Text=""  />-->
+        <ToolbarItem Order="Primary" Text="            My Trips              "  />
+        <!--<ToolbarItem Order="Primary" Text=""  />-->       
+        <ToolbarItem Order="Primary" Icon="Plus_128_128.png" Priority="1" Command="{Binding ImportItineraryScreen}" />
+    </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        <StackLayout>            
-            <StackLayout Orientation="Horizontal" Grid.Column="1" BackgroundColor="#FFE4B5">
-                <Image  Source="{Binding MenuHomeImageSource}" HorizontalOptions="StartAndExpand" Margin="10,0,0,0" />
-                <Label HorizontalOptions="CenterAndExpand"  Text="My Trips" FontSize="Medium" FontAttributes="Bold" TextColor="White"  />
-                <Image  Source="{Binding MenuAddItineraryImageSource}" HorizontalOptions="EndAndExpand" Margin="0,0,10,0" >
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ImportItineraryScreen}"  />
-                    </Image.GestureRecognizers>
-                </Image>
-            </StackLayout>
+        <StackLayout>
             <ListView x:Name="ItemsListView" 
                 ItemsSource="{Binding ItineraryList}"
                 VerticalOptions="FillAndExpand"
