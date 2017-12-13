@@ -17,6 +17,7 @@ namespace KtMobileApp.ViewModels
         public ObservableCollection<ItineraryViewModel> ItineraryList { get; set; }
         public Command LoadItineraryCommand { get; set; }
         public Command ImportItineraryScreen { get; set; }
+        public Command ShowHomeScreen { get; set; }
 
         private INavigation _navigation;
 
@@ -57,6 +58,7 @@ namespace KtMobileApp.ViewModels
             ItineraryList = new ObservableCollection<ItineraryViewModel>();
             LoadItineraryCommand = new Command(() => ExecuteLoadItemsCommand());
             ImportItineraryScreen = new Command(async () => await OpenPage());
+            ShowHomeScreen = new Command(async () => await OpenHomePage());
         }
 
         void ExecuteLoadItemsCommand()
@@ -103,6 +105,11 @@ namespace KtMobileApp.ViewModels
         {
             //TODO
             await _navigation.PushModalAsync(new ImportItinerary()); //_pageNavigation.PushModalAsync(new Page) ; NOTE: this is for Modal Dialog
+        }
+
+        public async Task OpenHomePage()
+        {
+            await _navigation.PushAsync(new HomePage()); //_pageNavigation.PushModalAsync(new Page) ; NOTE: this is for Modal Dialog
         }
 
     }

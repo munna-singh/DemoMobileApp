@@ -51,8 +51,10 @@ namespace KtMobileApp.ViewModels
                 {
                     cntr++;
                     var newItem = new ItineraryDailyBreakDown(_navigation);
+                    DateTime tripDayDate = DateTime.Parse(dto.ItineraryDayDate);
+
                     //TODO; change after demo
-                    dto.ItineraryDayDate = startDate.ToString("MMM dd,yyyy");
+                    dto.ItineraryDayDate = tripDayDate.ToString("MMM dd,yyyy");
 
                     newItem.DayNumber = dto.Day;
                     newItem.Location = dto.Summary;
@@ -61,13 +63,13 @@ namespace KtMobileApp.ViewModels
                     newItem.itineraryDayId = dto.ItineraryDayId;
 
                     //Check for past days
-                    if (startDate < DateTime.Today)
+                    if (tripDayDate < DateTime.Today)
                     {
                         newItem.IsPast = true;
                     }
 
                     //Set selected item background color for current day
-                    if (startDate == DateTime.Today)
+                    if (tripDayDate == DateTime.Today)
                     {
                         newItem.CurrentTripDaySelectedItem = Color.FromHex("FFDEAD");
                     }
@@ -79,7 +81,7 @@ namespace KtMobileApp.ViewModels
                     ItineraryDailyBreakDown.Add(newItem);
 
                     //Add next day
-                    startDate = startDate.AddDays(1);
+                    //startDate = startDate.AddDays(1);
                 }
 
             }

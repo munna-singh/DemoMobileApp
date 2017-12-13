@@ -36,6 +36,7 @@
     <None Remove="Assets\Images\Plus_32_32.png" />
     <None Remove="Assets\Images\Settings_64_64.png" />
     <None Remove="Assets\Images\StatusDone_128_128.png" />
+    <None Remove="Assets\Images\Status_Failed_128_128.png" />
     <None Remove="Assets\Images\Taj-Mahal.jpg" />
     <None Remove="Assets\Images\trip_64_64.png" />
     <None Remove="Assets\Images\WeatherCloud.png" />   
@@ -68,6 +69,7 @@
     <EmbeddedResource Include="Assets\Images\Plus_32_32.png" />
     <EmbeddedResource Include="Assets\Images\Settings_64_64.png" />
     <EmbeddedResource Include="Assets\Images\StatusDone_128_128.png" />
+    <EmbeddedResource Include="Assets\Images\Status_Failed_128_128.png" />
     <EmbeddedResource Include="Assets\Images\Taj-Mahal.jpg" />
     <EmbeddedResource Include="Assets\Images\trip_64_64.png" />
     <EmbeddedResource Include="Assets\Images\WeatherCloud.png" />   

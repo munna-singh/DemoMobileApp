@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KtMobileApp.Views.ImportItinerary" >
+
     <ContentPage.Resources>
         <ResourceDictionary x:Name="AppDictionary">
             <Color x:Key="BackgroundColor">#FFFFFF</Color>
@@ -18,35 +19,52 @@
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
+
     <ContentPage.Content>
-       
         <ContentView Style="{StaticResource BorderStyle}">
-            <StackLayout VerticalOptions="Center" Margin="10">
-                <StackLayout BackgroundColor="#FFDEAD" HeightRequest="30" Orientation="Horizontal">
-                    <Label Text="Manage Your Itineraries" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"  TextColor="White"></Label>
-                    <Image Source="{Binding ImageSourceCloseForm}" HorizontalOptions="EndAndExpand" VerticalOptions="Center" >
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding CloseForm}"  />
-                        </Image.GestureRecognizers>
-                    </Image>
-                </StackLayout>
+            <ContentView Style="{StaticResource InternalViewStyle}">
+                <RelativeLayout VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="0" Padding="0">
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="Black"
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="CenterAndExpand"
+                               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                                        Property=Height,
+                                        Factor=0.33}"
+                               RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                                        Property=Height,
+                                        Factor=0.33}" />
 
-                <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="StartAndExpand" Margin="10" IsVisible="{Binding ShowImportTripView}">
-                    <Label Text="Trip Reference Number"               
+                    <StackLayout VerticalOptions="Center" Margin="10">                        
+
+                        <StackLayout BackgroundColor="#FFDEAD" HeightRequest="30" Orientation="Horizontal">
+                            <Label Text="Manage Your Itineraries" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"  TextColor="White"></Label>
+                            <Image Source="{Binding ImageSourceCloseForm}" HorizontalOptions="EndAndExpand" VerticalOptions="Center" >
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding CloseForm}"  />
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </StackLayout>
+
+                        <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="StartAndExpand" Margin="10" IsVisible="{Binding ShowImportTripView}">
+                            <Label Text="Trip Reference Number"               
                 HorizontalOptions="StartAndExpand" />
-                    <Editor Text="{Binding TripReferenceNumber, Mode=OneWayToSource}" ></Editor>
-                    <Button Text="Add Trip" Command="{Binding ImportItinerary}" TextColor="White" WidthRequest="100" BackgroundColor="#FFDEAD" HorizontalOptions="Start" CommandParameter="{Binding .}" ></Button>
-                </StackLayout>
+                            <Editor Text="{Binding TripReferenceNumber, Mode=OneWayToSource}" ></Editor>
+                            <Button Text="Add Trip" Command="{Binding ImportItinerary}" TextColor="White" WidthRequest="100" BackgroundColor="#FFDEAD" HorizontalOptions="Start" CommandParameter="{Binding .}" ></Button>
+                        </StackLayout>
 
-                <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Margin="10" IsVisible="{Binding ShowImportTripStatusView}">
-                    <Image Source="{Binding ImportStatusIcon}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" >                      
-                    </Image>
-                    <Label Text="{Binding ImportTripReferenceStatusMessage}"  ></Label>
-                </StackLayout>
-                
-            </StackLayout>
+                        <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Margin="10" IsVisible="{Binding ShowImportTripStatusView}">
+                            <Image Source="{Binding ImportStatusIcon}" IsVisible="{Binding ShowSuccessIcon}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" >
+                            </Image>
+                            <Image Source="{Binding ImportFailedIcon}" IsVisible="{Binding ShowFailedIcon}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" >
+                            </Image>
+                            <Label Text="{Binding ImportTripReferenceStatusMessage}"  ></Label>
+                        </StackLayout>
+                        <BoxView HeightRequest="1" Color="Gray"  HorizontalOptions="FillAndExpand"></BoxView>
+                    </StackLayout>
+                </RelativeLayout>
+            </ContentView>
         </ContentView>
-       
+
     </ContentPage.Content>
 </ContentPage>

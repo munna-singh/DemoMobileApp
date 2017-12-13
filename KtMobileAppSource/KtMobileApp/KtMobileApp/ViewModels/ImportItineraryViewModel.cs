@@ -15,8 +15,35 @@ namespace KtMobileApp.ViewModels
         public string ImageSourceCloseFormPath { set; get; }
 
         public string ImportStatusIconPath { set; get; }
-        
+        public string ImportFailedIconPath { set; get; }
 
+        private bool _showSuccessIcon = true;
+        public bool ShowSuccessIcon
+        {
+            get
+            {
+                return _showSuccessIcon;
+            }
+            set
+            {
+                _showSuccessIcon = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _showFailedIcon = true;
+        public bool ShowFailedIcon
+        {
+            get
+            {
+                return _showFailedIcon;
+            }
+            set
+            {
+                _showFailedIcon = value;
+                OnPropertyChanged();
+            }
+        }
 
         private string _importTripReferenceStatusMessage;
         public string ImportTripReferenceStatusMessage
@@ -76,6 +103,14 @@ namespace KtMobileApp.ViewModels
             }
         }
 
+        public ImageSource ImportFailedIcon
+        {
+            get
+            {
+                return ImageSource.FromResource(ImportFailedIconPath);
+            }
+        }
+
         private INavigation _pageNavigation;
 
         public Command ImportItinerary { get; set; }
@@ -85,20 +120,43 @@ namespace KtMobileApp.ViewModels
         {
             //Title = "Manage Your Itinerary";
             _pageNavigation = pageNavigation;
-            ImportItinerary = new Command<ImportItineraryViewModel>((parm) => AddItineraryToDb(parm));
+            ImportItinerary = new Command<ImportItineraryViewModel>(async (parm) => await AddItineraryToDb(parm));
             CloseForm = new Command(() => CloseDialogForm());
         }
 
         public void CloseDialogForm()
-        {
+        {            
             _pageNavigation.PopModalAsync();
         }
 
-        public void AddItineraryToDb(ImportItineraryViewModel tripReferenceModel)
+        public async Task AddItineraryToDb(ImportItineraryViewModel tripReferenceModel)
+        {
+            if (IsBusy) return;
+            IsBusy = true;            
+
+            try
+            {
+
+                await Task.Run(() => AddTrip(tripReferenceModel.TripReferenceNumber));
+
+            }
+            catch (Exception)
+            {
+                ImportTripReferenceStatusMessage = "Trip Import Failed";
+                ShowImportTripView = false;
+                ShowImportTripStatusView = true;
+                ShowFailedIcon = true;
+                ShowSuccessIcon = false;
+            }
+
+            IsBusy = false;
+        }
+
+        private void AddTrip(string tripReferenceNumber)
         {
             //TODO: DB is failing to open
             KT.BusinessLayer.Itinerary itineraryManager = new KT.BusinessLayer.Itinerary();
-            var tripCallResponse = itineraryManager.GetItinerary(tripReferenceModel.TripReferenceNumber);
+            var tripCallResponse = itineraryManager.GetItinerary(tripReferenceNumber);
 
             //AFTER success
             if (tripCallResponse != null)
@@ -106,9 +164,15 @@ namespace KtMobileApp.ViewModels
                 ImportTripReferenceStatusMessage = "Successfully Imported";
                 ShowImportTripView = false;
                 ShowImportTripStatusView = true;
+                ShowSuccessIcon = true;
+                ShowFailedIcon = false;
             }
-        
-            //await DisplayAlert
+            else
+            {
+                ShowImportTripView = false;
+                ShowImportTripStatusView = true;
+                ShowFailedIcon = true;
+            }
         }
     }
 }

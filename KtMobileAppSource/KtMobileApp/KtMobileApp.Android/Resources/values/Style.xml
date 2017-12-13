@@ -3,7 +3,7 @@
   <style name="AppTheme" parent="AppTheme.Base">
   </style>
   <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
-    <item name="colorPrimary">@color/primary</item>
+    <item name="colorPrimary">#c8aa4f</item>
     <item name="colorPrimaryDark">@color/primaryDark</item>
     <item name="colorAccent">@color/accent</item>
     <item name="windowActionModeOverlay">true</item>
