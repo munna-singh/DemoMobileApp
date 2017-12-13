@@ -97,13 +97,17 @@ namespace KtMobileApp.ViewModels
         public void AddItineraryToDb(ImportItineraryViewModel tripReferenceModel)
         {
             //TODO: DB is failing to open
-            //KT.BusinessLayer.Itinerary itineraryManager = new KT.BusinessLayer.Itinerary();            
-            //var tripCallResponse = itineraryManager.GetItinerary(tripReferenceModel.TripReferenceNumber);
+            KT.BusinessLayer.Itinerary itineraryManager = new KT.BusinessLayer.Itinerary();
+            var tripCallResponse = itineraryManager.GetItinerary(tripReferenceModel.TripReferenceNumber);
 
             //AFTER success
-            ImportTripReferenceStatusMessage = "Successfully Imported";
-            ShowImportTripView = false;
-            ShowImportTripStatusView = true;
+            if (tripCallResponse != null)
+            {
+                ImportTripReferenceStatusMessage = "Successfully Imported";
+                ShowImportTripView = false;
+                ShowImportTripStatusView = true;
+            }
+        
             //await DisplayAlert
         }
     }

@@ -255,9 +255,18 @@ namespace SQLite
 			if (databasePath==null)
 				throw new ArgumentException ("Must be specified", nameof(databasePath));
 
-			DatabasePath = databasePath;
+			//DatabasePath = databasePath;
 
-			LibVersionNumber = SQLite3.LibVersionNumber ();
+            string applicationFolderPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "KtMobileAppDB");
+            
+            // Create the folder path.
+            System.IO.Directory.CreateDirectory(applicationFolderPath);
+           
+
+            DatabasePath = System.IO.Path.Combine(applicationFolderPath, databasePath);
+            SQLite.SQLite3.Config(SQLite.SQLite3.ConfigOption.Serialized);
+
+            LibVersionNumber = SQLite3.LibVersionNumber ();
 
 #if NETFX_CORE
 			SQLite3.SetDirectory(/*temp directory type*/2, Windows.Storage.ApplicationData.Current.TemporaryFolder.Path);
@@ -274,8 +283,11 @@ namespace SQLite
 			var databasePathAsBytes = GetNullTerminatedUtf8 (DatabasePath);
 			var r = SQLite3.Open (databasePathAsBytes, out handle, (int) openFlags, IntPtr.Zero);
 #endif
+            
 
-			Handle = handle;
+            
+
+            Handle = handle;
 			if (r != SQLite3.Result.OK) {
 				throw SQLiteException.New (r, String.Format ("Could not open database file: {0} ({1})", DatabasePath, r));
 			}
