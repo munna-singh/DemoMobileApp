@@ -1,5 +1,6 @@
 ﻿
 using KT.BusinessLayer;
+using KT.DAL.Models;
 using KtMobileApp.Models;
 using KtMobileApp.Views;
 using System;
@@ -44,9 +45,9 @@ namespace KtMobileApp.ViewModels
                 ItineraryDailyBreakDown.Clear();
                 KT.BusinessLayer.Itinerary itineraryManager = new KT.BusinessLayer.Itinerary();
                 DateTime startDate = DateTime.Today.AddDays(-2);
-                var itineraryDailyBreakdown = itineraryManager.GetItineraryDays(1);
+                var itineraryDailyBreakdown = itineraryManager.GetItineraryDays(_itineraryVm.TripId);
                 int cntr = 0;
-                foreach (ItineraryDayDto dto in itineraryDailyBreakdown)
+                foreach (ItineraryDays dto in itineraryDailyBreakdown)
                 {
                     cntr++;
                     var newItem = new ItineraryDailyBreakDown(_navigation);
@@ -54,9 +55,10 @@ namespace KtMobileApp.ViewModels
                     dto.ItineraryDayDate = startDate.ToString("MMM dd,yyyy");
 
                     newItem.DayNumber = dto.Day;
-                    newItem.Location = dto.LocationName;
+                    newItem.Location = dto.Summary;
                     newItem.TripDayDate = dto.ItineraryDayDate;
-                    newItem.ItineraryDayDescription = dto.CustomServiceDesc;
+                    newItem.ItineraryDayDescription = dto.Notes;
+                    newItem.itineraryDayId = dto.ItineraryDayId;
 
                     //Check for past days
                     if (startDate < DateTime.Today)

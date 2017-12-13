@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KtMobileApp.Views.ImportItinerary" >
+    <ContentPage.Resources>
+        <ResourceDictionary x:Name="AppDictionary">
+            <Color x:Key="BackgroundColor">#FFFFFF</Color>
+            <Color x:Key="BorderColor">#DCDCDC</Color>
+            <Style x:Key="InternalViewStyle" TargetType="ContentView">
+                <Setter Property="BackgroundColor" 
+            Value="{StaticResource BackgroundColor}"/>
+                <Setter Property="VerticalOptions" Value="Fill"/>
+                <Setter Property="Padding" Value="10,10,10,10"></Setter>
+            </Style>
+            <Style x:Key="BorderStyle" TargetType="ContentView">
+                <Setter Property="BackgroundColor" Value="{StaticResource BorderColor}"/>
+                <Setter Property="Padding" Value="3,1,1,3"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+       
+        <ContentView Style="{StaticResource BorderStyle}">
+            <StackLayout VerticalOptions="Center" Margin="10">
+                <StackLayout BackgroundColor="#FFDEAD" HeightRequest="30" Orientation="Horizontal">
+                    <Label Text="Manage Your Itineraries" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"  TextColor="White"></Label>
+                    <Image Source="{Binding ImageSourceCloseForm}" HorizontalOptions="EndAndExpand" VerticalOptions="Center" >
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CloseForm}"  />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </StackLayout>
+
+                <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="StartAndExpand" Margin="10" IsVisible="{Binding ShowImportTripView}">
+                    <Label Text="Trip Reference Number"               
+                HorizontalOptions="StartAndExpand" />
+                    <Editor Text="{Binding TripReferenceNumber, Mode=OneWayToSource}" ></Editor>
+                    <Button Text="Add Trip" Command="{Binding ImportItinerary}" TextColor="White" WidthRequest="100" BackgroundColor="#FFDEAD" HorizontalOptions="Start" CommandParameter="{Binding .}" ></Button>
+                </StackLayout>
+
+                <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Margin="10" IsVisible="{Binding ShowImportTripStatusView}">
+                    <Image Source="{Binding ImportStatusIcon}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" >                      
+                    </Image>
+                    <Label Text="{Binding ImportTripReferenceStatusMessage}"  ></Label>
+                </StackLayout>
+                
+            </StackLayout>
+        </ContentView>
+       
+    </ContentPage.Content>
+</ContentPage>

@@ -3,33 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KtMobileApp.Views.HomePage" BackgroundImage="{Binding BackImage}" >
     
-    <ContentPage.Content>
-        <!--<StackLayout Padding="20">                        
-            --><!--<StackLayout Orientation="Horizontal">                                
-                <Image Source="{Binding LocationImage}" WidthRequest="20" HeightRequest="20"/>                                
-                <Label Text="{Binding CurrentLocation}" FontSize="20" TextColor="White"></Label>                                
-                <Label Text="          " FontSize="20" TextColor="White"></Label>                                
-                <Image Source="{Binding WeatherImage}" WidthRequest="30" HeightRequest="30"/>
-                <Label Text="73 F" TextColor="White" FontSize="20" />
-            </StackLayout>--><!--
-            <StackLayout Padding="20">
-                            
-                <StackLayout Orientation="Horizontal">
-                                    
-                    <Image Source="location.png" WidthRequest="20" HeightRequest="20"/>
-                                    
-                    <Label Text="India" FontSize="20" TextColor="White"></Label>
-                                    
-                    <Label Text="          " FontSize="20" TextColor="White"></Label>
-                                    
-                    <Image Source="cloud.png" WidthRequest="30" HeightRequest="30"/>
-                                    
-                    --><!--<Label Text="73 F"  TextColor="White" FontSize="20"></Label>--><!--
-                                
-                </StackLayout>
-                        
-            </StackLayout>
-        </StackLayout>-->
+    <ContentPage.Content>       
         <StackLayout>
             <StackLayout Padding="20">
                 <StackLayout Orientation="Horizontal">

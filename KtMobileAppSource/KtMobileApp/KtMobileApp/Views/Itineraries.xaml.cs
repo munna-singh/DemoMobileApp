@@ -19,7 +19,11 @@ namespace KtMobileApp.Views
 		{
 			InitializeComponent ();
 
-            BindingContext = viewModel = new ItinerariesViewModel(Navigation);
+            viewModel = new ItinerariesViewModel(Navigation);
+            viewModel.PastTripsBackCoverImagePath = "KtMobileApp.Assets.Images.PastTrips_BackCover_16_128_128.png";
+            viewModel.MenuAddItineraryImagePath = "KtMobileApp.Assets.Images.Plus_32_32.png";
+            viewModel.MenuHomeImagePath = "KtMobileApp.Assets.Images.Home_white_32_32.png";
+            BindingContext = viewModel;
         }
 
         protected override void OnAppearing()
