@@ -18,7 +18,7 @@ namespace KtMobileApp.Views
         public Itineraries ()
 		{
 			InitializeComponent ();
-
+            Title = "Trips";
             viewModel = new ItinerariesViewModel(Navigation);
             viewModel.PastTripsBackCoverImagePath = "KtMobileApp.Assets.Images.PastTrips_BackCover_16_128_128.png";
             viewModel.MenuAddItineraryImagePath = "KtMobileApp.Assets.Images.Plus_32_32.png";

@@ -13,27 +13,31 @@ namespace KtMobileApp.Models
     public class ItineraryDailyBreakDown : BaseViewModel
     {
         private INavigation _pageNavigation;
+        
 
-       
         public ItineraryDailyBreakDown(INavigation MainPageNavigation)
         {
-            Title = "Itinerary Name";
+            //Title = "Itinerary Name";
             _pageNavigation = MainPageNavigation;
-            
+
             OpenItineraryDayDetails = new Command<ItineraryDailyBreakDown>(async (model) => await OpenNewPage(model));
-            
+
         }
 
+       
+
+        public int TripId { get; set; }
         public int itineraryDayId { get; set; }
         public string ImageUri { get; set; }
         public string Location { get; set; }
         public string TripDayDate { get; set; }
         public bool IsPast { get; set; }
         public string IsPastText { get; set; }
-        public string DayNumber { get; set; }
+        public int DayNumber { get; set; }
         public string CheckImageUri { get; set; }
         public string ItineraryDayDescription { set; get; }
         public string ImageResourceActivityPath { set; get; }
+        public string TripTitle { set; get; }
 
         private string _imageResourcePassedPath;
         public string ImageResourcePassedPath
@@ -69,7 +73,8 @@ namespace KtMobileApp.Models
         public Command OpenItineraryDayDetails { get; set; }
         
         public async Task OpenNewPage(ItineraryDailyBreakDown objVm)
-        {            
+        {
+            //objVm.TripTitle = Title;
             //MainPage.SetMenu(new ItineraryCompleteDetails(objVm,new Menu() { })
             await _pageNavigation.PushAsync(new ItineraryCompleteDetails(objVm)); //_pageNavigation.PushModalAsync(new Page) ; NOTE: this is for Modal Dialog
         }

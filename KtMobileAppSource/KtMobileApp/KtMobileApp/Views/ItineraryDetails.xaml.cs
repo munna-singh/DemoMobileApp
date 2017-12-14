@@ -18,17 +18,11 @@ namespace KtMobileApp.Views
         public ItineraryDetails(INavigation pageNavigation,ItineraryViewModel itineraryVm)
 		{
             InitializeComponent();
-            /*NavigationPage.SetHasNavigationBar(*/
-
+            
+            Title = itineraryVm.TripName;
             //TODO:
             BindingContext = viewModel = new ItineraryDetailsViewModel(pageNavigation, itineraryVm);
         }
-
-        //public ItineraryDetails()
-        //{
-        //    InitializeComponent();
-        //    BindingContext = viewModel = new ItineraryDetailsViewModel(Navigation);
-        //}
 
         protected override void OnAppearing()
         {

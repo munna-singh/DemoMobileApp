@@ -26,7 +26,7 @@ namespace KtMobileApp.ViewModels
 
         public ItineraryDetailsViewModel(INavigation MainPageNavigation, ItineraryViewModel itineraryVm)
         {
-            Title = "Itinerary Details";
+            Title = itineraryVm.TripName;
             _navigation = MainPageNavigation;
             _itineraryVm = itineraryVm;
             ItineraryDailyBreakDown = new ObservableCollection<ItineraryDailyBreakDown>();
@@ -56,11 +56,13 @@ namespace KtMobileApp.ViewModels
                     //TODO; change after demo
                     dto.ItineraryDayDate = tripDayDate.ToString("MMM dd,yyyy");
 
-                    newItem.DayNumber = dto.Day;
+                    newItem.TripId = _itineraryVm.TripId;
+                    newItem.DayNumber = Int16.Parse(dto.Day);
                     newItem.Location = dto.Summary;
                     newItem.TripDayDate = dto.ItineraryDayDate;
                     newItem.ItineraryDayDescription = dto.Notes;
                     newItem.itineraryDayId = dto.ItineraryDayId;
+                    newItem.TripTitle = Title;
 
                     //Check for past days
                     if (tripDayDate < DateTime.Today)

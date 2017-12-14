@@ -124,6 +124,16 @@ namespace KT.BusinessLayer
             return itineraryDays.ToArray();
         }
 
+
+        //public List<string> GetItineraryDayHighLights(int itineraryDayId)
+        //{
+        //    var ktdb = new KT.DAL.KTdb();
+        //    var itinIdExists = ktdb.ExecuteScalar<int>("select count(1) from ItineraryDayDesc where ItineraryDayId = ?", itineraryDayId);
+        //    if (itinIdExists > 0)
+        //        ktdb.Get<ItineraryDayDesc>(x => x.ItineraryDayId == itineraryDayId);
+
+        //}
+
         private ItineraryDayDesc GetItineraryService(ItineraryServiceDto serviceDto)
         {
             var itinDayDesc = new ItineraryDayDesc()

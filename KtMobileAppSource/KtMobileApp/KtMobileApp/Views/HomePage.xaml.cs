@@ -19,7 +19,7 @@ namespace KtMobileApp.Views
 		{
 			InitializeComponent ();
             viewModel = new HomePageViewModel();
-
+            Title = "Home";
 			viewModel.LocationImagePath = "KtMobileApp.Assets.Images.locationWhite.png";
 			viewModel.WeatherImagePath = "KtMobileApp.Assets.Images.WeatherCloud.png";
 			viewModel.BackImagePath = "TajMahal.jpg";

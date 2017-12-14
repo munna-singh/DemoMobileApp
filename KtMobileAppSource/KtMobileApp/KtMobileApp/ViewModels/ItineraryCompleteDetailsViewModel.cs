@@ -23,7 +23,7 @@ namespace KtMobileApp.ViewModels
 
         public ItineraryCompleteDetailsViewModel()
         {
-            Title = "Itinerary Name-2";
+            //Title = "Itinerary Name-2";
         }
     }
 }

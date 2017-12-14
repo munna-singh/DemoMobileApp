@@ -58,7 +58,7 @@ namespace KtMobileApp.ViewModels
             ItineraryList = new ObservableCollection<ItineraryViewModel>();
             LoadItineraryCommand = new Command(() => ExecuteLoadItemsCommand());
             ImportItineraryScreen = new Command(async () => await OpenPage());
-            ShowHomeScreen = new Command(async () => await OpenHomePage());
+            ShowHomeScreen = new Command(async () => await OpenHomePage());            
         }
 
         void ExecuteLoadItemsCommand()
