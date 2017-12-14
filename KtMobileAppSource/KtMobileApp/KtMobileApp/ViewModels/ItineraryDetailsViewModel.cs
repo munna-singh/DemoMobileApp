@@ -54,7 +54,7 @@ namespace KtMobileApp.ViewModels
                     DateTime tripDayDate = DateTime.Parse(dto.ItineraryDayDate);
 
                     //TODO; change after demo
-                    dto.ItineraryDayDate = tripDayDate.ToString("MMM dd,yyyy");
+                    dto.ItineraryDayDate = tripDayDate.ToString("MMM dd, yyyy");
 
                     newItem.DayNumber = dto.Day;
                     newItem.Location = dto.Summary;
@@ -71,7 +71,7 @@ namespace KtMobileApp.ViewModels
                     //Set selected item background color for current day
                     if (tripDayDate == DateTime.Today)
                     {
-                        newItem.CurrentTripDaySelectedItem = Color.FromHex("FFDEAD");
+                        newItem.CurrentTripDaySelectedItem = Color.FromHex("BFAD87");
                     }
                     newItem.ImageResourcePassedPath = "KtMobileApp.Assets.Images.checked_48_48.png";
                     newItem.ImageResourceActivityPath = $"KtMobileApp.Assets.Images.Activity_{cntr}_128_128.png";
