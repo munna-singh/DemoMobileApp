@@ -38,7 +38,7 @@
                                         </Grid.ColumnDefinitions>
                                         <StackLayout Padding="8"
                                              Grid.Column="0"
-                                             VerticalOptions="Center" BackgroundColor="#FFDEAD" >
+                                             VerticalOptions="Center" BackgroundColor="#BFAD87" >
                                             <Label Text="DAY" FontSize="Medium"  TextColor="#F5F5F5" HorizontalOptions="CenterAndExpand" LineBreakMode="NoWrap"/>
                                             <Label Text="{Binding DayNumber}" FontSize="Medium" TextColor="#F5F5F5" HorizontalOptions="CenterAndExpand" LineBreakMode="NoWrap"/>
                                         </StackLayout>

@@ -5,11 +5,11 @@
              xmlns:local="clr-namespace:KtMobileApp.MarkupExtensions;assembly=KtMobileApp"
              x:Class="KtMobileApp.Views.Itineraries"
              >
-    <ContentPage.ToolbarItems>      
-        <ToolbarItem Order="Primary" Icon="Home_128_128.png" Priority="0" StyleId="" Command="{Binding ShowHomeScreen}"  />       
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Primary" Icon="Home_128_128.png" Priority="0" StyleId="" Command="{Binding ShowHomeScreen}"  />
         <!--<ToolbarItem Order="Primary" Text=""  />-->
         <ToolbarItem Order="Primary" Text="            My Trips              "  />
-        <!--<ToolbarItem Order="Primary" Text=""  />-->       
+        <!--<ToolbarItem Order="Primary" Text=""  />-->
         <ToolbarItem Order="Primary" Icon="Plus_128_128.png" Priority="1" Command="{Binding ImportItineraryScreen}" />
     </ContentPage.ToolbarItems>
 
@@ -45,7 +45,7 @@
                                     <Button HorizontalOptions="Center"  Text="View Itinerary"  FontSize="Small" FontAttributes="Bold" TextColor="White"  Grid.Column="0"
                                           Command="{Binding ViewItineraryDetails}" CommandParameter="{Binding .}" />
                                 </StackLayout>
-                            </Grid>                            
+                            </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
