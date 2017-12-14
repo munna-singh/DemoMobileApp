@@ -10,6 +10,13 @@ using System.Threading.Tasks;
 using System.Linq;
 namespace KT.BusinessLayer
 {
+    public enum TripImportStatus
+    {
+        Error = 0,
+        Add = 1,
+        Update = 2
+    }
+
     public class Itinerary : ITripService
     {
 
@@ -26,6 +33,82 @@ namespace KT.BusinessLayer
             ktdb.CreateTable<TripServices>();
             ktdb.CreateTable<ItineraryDays>();
             ktdb.CreateTable<ItineraryDayDesc>();
+        }       
+
+        private bool InsertTripDataFromApi(int tripId)
+        {
+            //Webservice to fetch data related to trip this tripId
+            apiUri = string.Format("{0}/{1}", "trips", tripId);
+            var tripObject = new KTApi<TripDto>().Get(apiUri);
+
+            //Insert to db object 
+            var tripService = new TripServices()
+            {
+                Id = tripObject.TripId,
+                Name = tripObject.TripName,
+                ItineraryId = Convert.ToInt32(tripObject.SystemOfRecordId.Replace("KT:IT-", "")),
+                RefNum = tripObject.TripReference,
+                StartDate = tripObject.TripStartDate,
+                NoOfDays = tripObject.NumberOfDays,
+                NoOfPeople = tripObject.NumberOfPeople,
+                GroupName = tripObject.GroupName,
+                ImageSrc = "",
+                IsArchived = 0
+            };
+
+            //Initialize db
+            var ktdb = new KT.DAL.KTdb();
+            //insert trip
+            var insertCount = ktdb.Insert(tripService);
+
+            return true;
+        }
+
+        public TripImportStatus AddItinerary(string tripRefNumber)
+        {
+            //validate triprefnumber for '-' or emptystring
+            if (string.IsNullOrWhiteSpace(tripRefNumber)) throw new ArgumentException("TripRefNumber cannot be empty");
+
+            if (!tripRefNumber.Contains("-")) throw new ArgumentException("Provider a valid trip ref number Ex.Wil5T-000100 ");
+
+            var tripId = tripRefNumber.Split('-')[1];
+
+            //Check if this TripId is already in db then return from db
+            var tripIdInt = Convert.ToInt32(tripId);
+            var ktdb = new DAL.KTdb();
+            var tripServiceId = ktdb.ExecuteScalar<int>("select Id from TripServices where Id = ?", tripIdInt);
+
+            //Add
+            if (tripServiceId == 0)
+            {
+                InsertTripDataFromApi(tripIdInt);
+
+                //get itineraryId 
+                var itinId = ktdb.ExecuteScalar<int>("select ItineraryId from TripServices where Id = ?", tripIdInt);
+                GetItineraryDays(itinId);
+                return TripImportStatus.Add;
+            }
+
+            //return from db if pk is already exists
+            if (tripServiceId > 0)
+            {
+                //save itineraryId 
+                var itinId = ktdb.ExecuteScalar<int>("select ItineraryId from TripServices where Id = ?", tripIdInt);
+
+                //delete data for this trip
+                ktdb.Table<ItineraryDayDesc>().Delete(x => x.ItineraryId == itinId);
+                ktdb.Table<ItineraryDays>().Delete(x => x.ItineraryId == itinId);
+                ktdb.Table<TripServices>().Delete(x=>x.Id== tripServiceId);
+
+                //reload the data
+                InsertTripDataFromApi(tripIdInt);
+                GetItineraryDays(itinId);
+
+                //update as status
+                return TripImportStatus.Update;
+            }
+
+            return TripImportStatus.Error;
         }
 
         public TripServices GetItinerary(string tripRefNumber)
@@ -47,30 +130,8 @@ namespace KT.BusinessLayer
             //return from db if pk is already exists
             if (tripServiceId > 0) return ktdb.Get<TripServices>(x => x.Id == tripIdInt);
 
-            //Call webservice to fetch data related to trip this tripId
-            apiUri = string.Format("{0}/{1}", "trips", tripId);
-
-            var tripObject = new KTApi<TripDto>().Get(apiUri);
-
-            //Insert to db object 
-            var tripService = new TripServices()
-            {
-                Id = tripObject.TripId,
-                Name = tripObject.TripName,
-                ItineraryId = Convert.ToInt32(tripObject.SystemOfRecordId.Replace("KT:IT-", "")),
-                RefNum = tripObject.TripReference,
-                StartDate = tripObject.TripStartDate,
-                NoOfDays = tripObject.NumberOfDays,
-                NoOfPeople = tripObject.NumberOfPeople,
-                GroupName = tripObject.GroupName,
-                ImageSrc = "",
-                IsArchived = 0
-            };
-
-            //insert to db
-
-            var insertCount = ktdb.Insert(tripService);
-            return tripService;
+            InsertTripDataFromApi(tripIdInt);
+            return ktdb.Get<TripServices>(x => x.Id == tripIdInt);
         }
 
         public ItineraryDays[] GetItineraryDays(int itineraryId)
@@ -112,10 +173,27 @@ namespace KT.BusinessLayer
                     };
 
                     //Save ItineraryDayDesc
-                    var itinDayDesc = GetItineraryService(itinServiceDto.FirstOrDefault(x => x.ItineraryDayId == dayObj.ItineraryDayId && x.ItineraryId == dayObj.ItineraryId));
-                    var insertCount = ktdb.Insert(itinDayDesc);
+                    var itinDayDesc = GetItineraryService(itineraryId, itinServiceDto.Where(x => x.ItineraryDayId == dayObj.ItineraryDayId && x.ItineraryId == dayObj.ItineraryId).ToList());
+                    var insertCount = ktdb.InsertAll(itinDayDesc);
 
-                    day.Summary = (itinDayDesc.SourceName == itinDayDesc.DestName ? itinDayDesc.SourceName : itinDayDesc.SourceName+ "|" + itinDayDesc.DestName);               //Save ItineraryDays
+                    //find source and destination to update in ItineraryDay table
+                    List<string> srcDest = new List<string>();
+                    foreach(var dayDesc in itinDayDesc)
+                    {
+                        if (dayDesc.SourceName != "Global Location")
+                        {
+                            if (!srcDest.Contains(dayDesc.SourceName))
+                                srcDest.Add(dayDesc.SourceName);
+                        }
+
+                        if (dayDesc.DestName != "Global Location")
+                        {
+                            if (!srcDest.Contains(dayDesc.DestName))
+                                srcDest.Add(dayDesc.DestName);
+                        }
+                    }
+
+                    day.Summary = string.Join("|",srcDest);
                     insertCount = ktdb.Insert(day);
                     itineraryDays.Add(day);
                 }
@@ -124,24 +202,41 @@ namespace KT.BusinessLayer
             return itineraryDays.ToArray();
         }
 
-        private ItineraryDayDesc GetItineraryService(ItineraryServiceDto serviceDto)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="itineraryId"></param>
+        /// <param name="serviceDto"></param>
+        /// <returns></returns>
+        private List<ItineraryDayDesc> GetItineraryService(int itineraryId,List<ItineraryServiceDto> serviceDto)
         {
-            var itinDayDesc = new ItineraryDayDesc()
+            var dayDescList = new List<ItineraryDayDesc>();
+            foreach (var dataObj in serviceDto)
             {
-                ItineraryDayId = serviceDto.ItineraryDayId,
-                TimeOfDayId = serviceDto.TimeOfDay.TimeId,
-                CustomDisplayName = serviceDto.CustomDisplayName,
-                ActivityTypeDisplayName = serviceDto.ServiceDescription.ActivityTypeDisplayName,
-                DisplayOrder = serviceDto.DisplayOrder,
-                Alerts = serviceDto.Alerts,
-                TermsAndConditions = serviceDto.ServiceDescription.TermsAndConditions,
-                SourceName = serviceDto.SourceLocale.Name,
-                DestName = serviceDto.DestinationLocale.Name,
-                Description = serviceDto.ServiceDescription.Description         
-            };
-            return itinDayDesc;
+                var itinDayDesc = new ItineraryDayDesc()
+                {
+                    ItineraryDayId = dataObj.ItineraryDayId,  
+                    ItineraryId = itineraryId,
+                    TimeOfDayId = dataObj.TimeOfDay.TimeOfDayId,
+                    CustomDisplayName = dataObj.CustomDisplayName,
+                    ActivityTypeDisplayName = dataObj.ServiceDescription.ActivityTypeDisplayName,
+                    DisplayOrder = dataObj.DisplayOrder,
+                    Alerts = dataObj.Alerts,
+                    TermsAndConditions = dataObj.ServiceDescription.TermsAndConditions,
+                    SourceName = dataObj.SourceLocale.Name,
+                    DestName = (dataObj.SourceLocale.Name.Equals(dataObj.DestinationLocale.Name,StringComparison.InvariantCultureIgnoreCase)?null: dataObj.DestinationLocale.Name),
+                    Description = dataObj.ServiceDescription.Description
+                };
+                dayDescList.Add(itinDayDesc);
+            }
+            return dayDescList;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="itineraryDayId"></param>
+        /// <returns></returns>
         public ItineraryDayDesc GetItineraryDayDesc(int itineraryDayId)
         {
             //validation
@@ -154,6 +249,28 @@ namespace KT.BusinessLayer
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="itineraryId"></param>
+        /// <param name="itineraryDayId"></param>
+        /// <returns></returns>
+        public List<string> GetItineraryDayHighlights(int itineraryId, int itineraryDayId)
+        {
+            //validation
+            if (itineraryId < 0) throw new ArgumentException("Provide a valid ItineraryId.");
+            if (itineraryDayId < 0) throw new ArgumentException("Provide a valid ItineraryDayId.");
+
+            var ktdb = new DAL.KTdb();
+            var itinIdExists = ktdb.ExecuteScalar<int>("select count(1) from ItineraryDayDesc where ItineraryId = ? and ItineraryDayId = ?", itineraryId, itineraryDayId);
+            var dayDescData = ktdb.Table<ItineraryDayDesc>().Where(x => x.ItineraryDayId == itineraryDayId && x.ItineraryId == itineraryId).OrderBy(y=>y.TimeOfDayId).ThenBy(z=>z.DisplayOrder);
+            return dayDescData.Select(x => x.ActivityTypeDisplayName + "-" +x.CustomDisplayName).ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<TripServices> GetItineraryList()
         {
            

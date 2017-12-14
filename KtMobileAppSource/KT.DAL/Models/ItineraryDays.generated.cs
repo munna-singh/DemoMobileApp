@@ -4,7 +4,7 @@ namespace KT.DAL.Models
 {
     public class ItineraryDays
     {
-        [PrimaryKey]
+        [PrimaryKey]      
         public int ItineraryDayId { get; set; }
         public string Day { get; set; }
         public int ItineraryId { get; set; }
