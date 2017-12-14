@@ -218,6 +218,7 @@ namespace KT.BusinessLayer
                     ItineraryDayId = dataObj.ItineraryDayId,  
                     ItineraryId = itineraryId,
                     TimeOfDayId = dataObj.TimeOfDay.TimeOfDayId,
+                    DayNumber = dataObj.DayNumber,
                     CustomDisplayName = dataObj.CustomDisplayName,
                     ActivityTypeDisplayName = dataObj.ServiceDescription.ActivityTypeDisplayName,
                     DisplayOrder = dataObj.DisplayOrder,

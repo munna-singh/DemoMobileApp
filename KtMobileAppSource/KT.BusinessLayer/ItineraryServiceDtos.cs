@@ -157,7 +157,7 @@ namespace KT.BusinessLayer
         public string IsCommissionable { get; set; }
         public string IsCustomServiceName { get; set; }
         public string IsPackageService { get; set; }
-        public int? DayNumber { get; set; }
+        public int DayNumber { get; set; }
         public LocaleDto SourceLocale { get; set; }
         public LocaleDto DestinationLocale { get; set; }
         public DateTime ActualServiceStartDate { get; set; }
