@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace KtMobileApp.Models
+namespace KtMobileApp.ViewModels
 {
     public class ItineraryDailyBreakDown : BaseViewModel
     {
@@ -21,9 +21,7 @@ namespace KtMobileApp.Models
             _pageNavigation = MainPageNavigation;
 
             OpenItineraryDayDetails = new Command<ItineraryDailyBreakDown>(async (model) => await OpenNewPage(model));
-
         }
-
        
 
         public int TripId { get; set; }
@@ -74,8 +72,6 @@ namespace KtMobileApp.Models
         
         public async Task OpenNewPage(ItineraryDailyBreakDown objVm)
         {
-            //objVm.TripTitle = Title;
-            //MainPage.SetMenu(new ItineraryCompleteDetails(objVm,new Menu() { })
             await _pageNavigation.PushAsync(new ItineraryCompleteDetails(objVm)); //_pageNavigation.PushModalAsync(new Page) ; NOTE: this is for Modal Dialog
         }
 

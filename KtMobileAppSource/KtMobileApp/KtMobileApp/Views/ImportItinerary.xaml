@@ -37,7 +37,7 @@
 
                     <StackLayout VerticalOptions="Center" Margin="10">                        
 
-                        <StackLayout BackgroundColor="#FFDEAD" HeightRequest="30" Orientation="Horizontal">
+                        <StackLayout BackgroundColor="#BFAD87" HeightRequest="30" Orientation="Horizontal">
                             <Label Text="Manage Your Itineraries" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"  TextColor="White"></Label>
                             <Image Source="{Binding ImageSourceCloseForm}" HorizontalOptions="EndAndExpand" VerticalOptions="Center" >
                                 <Image.GestureRecognizers>
@@ -50,7 +50,7 @@
                             <Label Text="Trip Reference Number"               
                 HorizontalOptions="StartAndExpand" />
                             <Editor Text="{Binding TripReferenceNumber, Mode=OneWayToSource}" ></Editor>
-                            <Button Text="Add Trip" Command="{Binding ImportItinerary}" TextColor="White" WidthRequest="100" BackgroundColor="#FFDEAD" HorizontalOptions="Start" CommandParameter="{Binding .}" ></Button>
+                            <Button Text="Add Trip" Command="{Binding ImportItinerary}" TextColor="White" WidthRequest="100" BackgroundColor="#BFAD87" HorizontalOptions="Start" CommandParameter="{Binding .}" ></Button>
                         </StackLayout>
 
                         <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Margin="10" IsVisible="{Binding ShowImportTripStatusView}">
