@@ -23,6 +23,7 @@
     <None Remove="Assets\Images\BannerImage_2_256_256.png" />
     <None Remove="Assets\Images\checked_48_48.png" />
     <None Remove="Assets\Images\Close_32_32.png" />
+    <None Remove="Assets\Images\Close_48_48.png" />
     <None Remove="Assets\Images\cloud.png" />
     <None Remove="Assets\Images\Home_128_128.png" />
     <None Remove="Assets\Images\Home_32_32.png" />
@@ -56,6 +57,7 @@
     <EmbeddedResource Include="Assets\Images\BannerImage_2_256_256.png" />
     <EmbeddedResource Include="Assets\Images\checked_48_48.png" />
     <EmbeddedResource Include="Assets\Images\Close_32_32.png" />
+    <EmbeddedResource Include="Assets\Images\Close_48_48.png" />
     <EmbeddedResource Include="Assets\Images\cloud.png" />
     <EmbeddedResource Include="Assets\Images\Home_128_128.png" />
     <EmbeddedResource Include="Assets\Images\Home_32_32.png" />
@@ -76,6 +78,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs" Version="6.5.1" />
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.121934" />
   </ItemGroup>
 

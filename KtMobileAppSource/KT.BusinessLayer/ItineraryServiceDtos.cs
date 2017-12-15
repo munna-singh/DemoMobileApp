@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -75,8 +76,10 @@ namespace KT.BusinessLayer
 
     public class TimeOfDay
     {
-        public int TimeId { get; set; }
-        public string TimeName { get; set; }
+        [JsonProperty(PropertyName = "<TimeOfDayId>k__BackingField")]
+        public int TimeOfDayId { get; set; }
+        [JsonProperty(PropertyName = "<Name>k__BackingField")]
+        public string Name { get; set; }
     }
 
     public class ServiceDescriptionDto

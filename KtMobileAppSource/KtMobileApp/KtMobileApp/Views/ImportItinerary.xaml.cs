@@ -19,7 +19,7 @@ namespace KtMobileApp.Views
 			InitializeComponent ();
 
             viewModel = new ImportItineraryViewModel(Navigation);
-            viewModel.ImageSourceCloseFormPath = "KtMobileApp.Assets.Images.Close_32_32.png";
+            viewModel.ImageSourceCloseFormPath = "KtMobileApp.Assets.Images.Close_48_48.png";
             viewModel.ImportStatusIconPath = "KtMobileApp.Assets.Images.StatusDone_128_128.png";
             viewModel.ImportFailedIconPath = "KtMobileApp.Assets.Images.Status_Failed_128_128.png";
             BindingContext = viewModel;

@@ -1,4 +1,5 @@
-﻿using KtMobileApp.Views;
+﻿using KT.BusinessLayer;
+using KtMobileApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -140,7 +141,7 @@ namespace KtMobileApp.ViewModels
                 await Task.Run(() => AddTrip(tripReferenceModel.TripReferenceNumber));
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 ImportTripReferenceStatusMessage = "Trip Import Failed";
                 ShowImportTripView = false;
@@ -156,12 +157,12 @@ namespace KtMobileApp.ViewModels
         {
             //TODO: DB is failing to open
             KT.BusinessLayer.Itinerary itineraryManager = new KT.BusinessLayer.Itinerary();
-            var tripCallResponse = itineraryManager.GetItinerary(tripReferenceNumber);
+            TripImportStatus tripCallResponse = itineraryManager.AddItinerary(tripReferenceNumber);
 
             //AFTER success
-            if (tripCallResponse != null)
+            if (tripCallResponse==TripImportStatus.Add || tripCallResponse == TripImportStatus.Update)
             {
-                ImportTripReferenceStatusMessage = "Successfully Imported";
+                ImportTripReferenceStatusMessage = tripCallResponse == TripImportStatus.Update?"Itinerary already exists !":"Successfully Imported";
                 ShowImportTripView = false;
                 ShowImportTripStatusView = true;
                 ShowSuccessIcon = true;
