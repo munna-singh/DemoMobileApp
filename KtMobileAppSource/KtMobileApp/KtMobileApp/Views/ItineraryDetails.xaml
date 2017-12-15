@@ -21,7 +21,7 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout BackgroundColor="{Binding CurrentTripDaySelectedItem}">
-                                <StackLayout Orientation="Horizontal" Padding="0,10,10,0" >
+                                <StackLayout Orientation="Horizontal" >
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding ExpandHideData}">
                                         </TapGestureRecognizer>
@@ -36,7 +36,7 @@
                                             <ColumnDefinition Width="50*"/>
                                             <ColumnDefinition Width="5*"/>
                                         </Grid.ColumnDefinitions>
-                                        <StackLayout Padding="8"
+                                        <StackLayout Padding="0"
                                              Grid.Column="0"
                                              VerticalOptions="Center" BackgroundColor="#BFAD87" >
                                             <Label Text="DAY" FontSize="Medium"  TextColor="#F5F5F5" HorizontalOptions="CenterAndExpand" LineBreakMode="NoWrap"/>

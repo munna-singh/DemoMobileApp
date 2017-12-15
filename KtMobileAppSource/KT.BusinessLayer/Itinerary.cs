@@ -136,9 +136,9 @@ namespace KT.BusinessLayer
             return ktdb.Get<TripServices>(x => x.Id == tripIdInt);
         }
 
-        public ItineraryDays[] GetItineraryDays(int itineraryId)
+        public ItineraryDayDto[] GetItineraryDays(int itineraryId)
         {
-            var itineraryDays = new List<ItineraryDays>();
+            var itineraryDays = new List<ItineraryDayDto>();
 
             //validation
             if (itineraryId <= 0) throw new ArgumentException("Provide a valid ItineraryId.");
@@ -146,7 +146,31 @@ namespace KT.BusinessLayer
             //If this id already exists in db return from db
             var ktdb = new KT.DAL.KTdb();
             var itinIdExists = ktdb.ExecuteScalar<int>("select count(ItineraryId) from ItineraryDays where ItineraryId = ?", itineraryId);
-            if (itinIdExists>0) return ktdb.Table<ItineraryDays>().Where(x=>x.ItineraryId== itineraryId).ToArray();
+            if (itinIdExists > 0)
+            {
+               var itinDays =  ktdb.Table<ItineraryDays>().Where(x => x.ItineraryId == itineraryId).ToArray();
+                foreach(var dayObj in itinDays)
+                {
+                    var dayDto = new ItineraryDayDto()
+                    {
+
+                        ItineraryDayId = dayObj.ItineraryDayId,
+                        Day = dayObj.Day,
+                        Deleted = dayObj.Deleted,
+                        ItineraryId = dayObj.ItineraryId,
+                        Notes = dayObj.Notes,
+                        ItineraryDayDate = dayObj.ItineraryDayDate,
+                        IsCustomDescription = dayObj.IsCustomDescription,
+                        PictureId = dayObj.PictureId,
+                        Summary = dayObj.Summary,
+                        Highlights = GetItineraryDayHighlights(itineraryId, dayObj.ItineraryDayId)
+                    };
+                    itineraryDays.Add(dayDto);
+                }
+
+                return itineraryDays.ToArray();
+
+            }
 
             //hit api to fetch itineraryDays
             apiUri = string.Format("{0}/{1}/{2}", "itineraries", itineraryId, "days");
@@ -197,7 +221,20 @@ namespace KT.BusinessLayer
 
                     day.Summary = string.Join("|",srcDest);
                     insertCount = ktdb.Insert(day);
-                    itineraryDays.Add(day);
+                    itineraryDays.Add(new ItineraryDayDto()
+                    {
+                        ItineraryDayId = day.ItineraryDayId,
+                        Day = day.Day,
+                        Deleted = day.Deleted,
+                        ItineraryId = day.ItineraryId,
+                        Notes = day.Notes,
+                        ItineraryDayDate = day.ItineraryDayDate,
+                        IsCustomDescription = day.IsCustomDescription,
+                        PictureId = day.PictureId,
+                        Summary = day.Summary,
+                        Highlights = GetItineraryDayHighlights(itineraryId, day.ItineraryDayId)
+
+                    });
                 }
             }
 
@@ -213,6 +250,7 @@ namespace KT.BusinessLayer
         private List<ItineraryDayDesc> GetItineraryService(int itineraryId,List<ItineraryServiceDto> serviceDto)
         {
             var dayDescList = new List<ItineraryDayDesc>();
+
             foreach (var dataObj in serviceDto)
             {
                 var itinDayDesc = new ItineraryDayDesc()
@@ -228,9 +266,11 @@ namespace KT.BusinessLayer
                     TermsAndConditions = dataObj.ServiceDescription.TermsAndConditions,
                     SourceName = dataObj.SourceLocale.Name,
                     DestName = (dataObj.SourceLocale.Name.Equals(dataObj.DestinationLocale.Name,StringComparison.InvariantCultureIgnoreCase)?null: dataObj.DestinationLocale.Name),
-                    Description = dataObj.ServiceDescription.Description
+                    Description = dataObj.ServiceDescription.Description                   
                 };
+
                 dayDescList.Add(itinDayDesc);
+
             }
             return dayDescList;
         }
@@ -255,10 +295,57 @@ namespace KT.BusinessLayer
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="itineraryDayId"></param>
+        /// <returns></returns>
+        public ItineraryDayDesc GetItineraryNextDay(int itineraryDayId, int itineraryId, int dayNum)
+        {
+            var ktdb = new KT.DAL.KTdb();
+            var itinIdExists = ktdb.ExecuteScalar<int>("select count(1) from ItineraryDayDesc where ItineraryDayId = ?", itineraryDayId);
+            if (itinIdExists > 0)
+            {
+                var result = ktdb.Table<ItineraryDayDesc>().Where(x => x.ItineraryId == itineraryId && x.ItineraryDayId > itineraryDayId && x.DayNumber > dayNum).OrderBy(func => func.DayNumber).FirstOrDefault();
+                if (result != null)
+                    return GetItineraryDayDesc(result.ItineraryDayId);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="itineraryDayId"></param>
+        /// <returns></returns>
+        public ItineraryDayDesc GetItineraryPreviousDay(int itineraryDayId, int itineraryId, int dayNum)
+        {
+            var ktdb = new KT.DAL.KTdb();
+            var itinIdExists = ktdb.ExecuteScalar<int>("select count(1) from ItineraryDayDesc where ItineraryDayId = ?", itineraryDayId);
+            if (itinIdExists > 0)
+            {
+                var result = ktdb.Table<ItineraryDayDesc>().Where(x => x.ItineraryId == itineraryId && x.ItineraryDayId < itineraryDayId && x.DayNumber < dayNum).OrderByDescending(func => func.DayNumber).FirstOrDefault();
+                if (result != null)
+                    return GetItineraryDayDesc(result.ItineraryDayId);
+            }
+            return null;
+        }
+
+        public List<int> GetItineraryDaysList(int itineraryId)
+        { 
+            //fetch and return from db
+            var ktdb = new KT.DAL.KTdb();
+            //var itinIdExists = ktdb.ExecuteScalar<int>("select DayNumber from ItineraryDayDesc where ItineraryId = ?", itineraryId);
+            var result = ktdb.Table<ItineraryDayDesc>().Where(x => x.ItineraryId == itineraryId).Select(func => func.DayNumber).ToList();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="itineraryId"></param>
         /// <param name="itineraryDayId"></param>
         /// <returns></returns>
-        public List<string> GetItineraryDayHighlights(int itineraryId, int itineraryDayId)
+        private List<string> GetItineraryDayHighlights(int itineraryId, int itineraryDayId)
         {
             //validation
             if (itineraryId < 0) throw new ArgumentException("Provide a valid ItineraryId.");
@@ -285,6 +372,9 @@ namespace KT.BusinessLayer
             return null;
         }
 
-
+        ItineraryDays[] ITripService.GetItineraryDays(int itineraryId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

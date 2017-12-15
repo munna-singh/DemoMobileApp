@@ -10,7 +10,7 @@ namespace KtMobileApp.ViewModels
 {
     public class ItineraryDayViewModel : BaseViewModel
     {
-
+        List<int> _itineraryDays;
         private ItineraryCompleteDetailsViewModel _DayCompleteDetails;
         public ItineraryCompleteDetailsViewModel DayCompleteDetails
         {
@@ -30,7 +30,7 @@ namespace KtMobileApp.ViewModels
             try
             {
 
-                await Task.Run(() => NavigateNextOrPrevious(Int32.Parse(currentDay.DayNumber), true));
+                await Task.Run(() => NavigateNextOrPrevious(currentDay, true));
 
             }
             catch (Exception)
@@ -49,7 +49,7 @@ namespace KtMobileApp.ViewModels
             try
             {
 
-                await Task.Run(() => NavigateNextOrPrevious(Int32.Parse(currentDay.DayNumber), false));
+                await Task.Run(() => NavigateNextOrPrevious(currentDay, false));
 
             }
             catch (Exception)
@@ -60,13 +60,14 @@ namespace KtMobileApp.ViewModels
             IsBusy = false;
         }
 
-        private void NavigateNextOrPrevious(int currentDay, bool isNext)
+        private void NavigateNextOrPrevious(ItineraryCompleteDetailsViewModel currentDay, bool isNext)
         {
             var tripService = new Itinerary();
-            var triDayObject = tripService.GetItineraryDayDesc(currentDay + 1);
+
+            var triDayObject = isNext ? tripService.GetItineraryNextDay(currentDay.ItineraryDayId, currentDay.ItineraryId, Int32.Parse(currentDay.DayNumber)) 
+                                    : tripService.GetItineraryPreviousDay(currentDay.ItineraryDayId, currentDay.ItineraryId, Int32.Parse(currentDay.DayNumber));
 
             DayCompleteDetails = GetitinerayCompleteDesc(triDayObject);
-            DayCompleteDetails.DayNumber = (currentDay + 1).ToString();    
         }
 
         public ItineraryCompleteDetailsViewModel GetitinerayCompleteDesc(ItineraryDayDesc triDayObject)
@@ -76,6 +77,9 @@ namespace KtMobileApp.ViewModels
             itineraryDesc.LocationName = $"{triDayObject.SourceName}-{triDayObject.DestName}";
             itineraryDesc.ImageBanner = "KtMobileApp.Assets.Images.BannerImage_2_256_256.png";
             itineraryDesc.CompleteDescription = triDayObject.Description;
+            itineraryDesc.DayNumber = triDayObject.DayNumber.ToString();
+            itineraryDesc.ItineraryId = triDayObject.ItineraryId;
+            itineraryDesc.ItineraryDayId = triDayObject.ItineraryDayId;
 
             return itineraryDesc;
         }
@@ -85,14 +89,20 @@ namespace KtMobileApp.ViewModels
 
         public ItineraryDayViewModel()
         {
+            var tripService = new Itinerary();
+          
             NavigateNextDay = new Command<ItineraryCompleteDetailsViewModel>(async (model) => await NavigateNext(model));
             NavigatePreviousDay = new Command<ItineraryCompleteDetailsViewModel>(async (model) => await NavigatePrevious(model));
+            //_itineraryDays = tripService
         }
 
     }
 
     public class ItineraryCompleteDetailsViewModel: BaseViewModel
     {
+        public int ItineraryId { set; get; }
+        public int ItineraryDayId { set; get; }
+
         private string _DayNumber;
         public string DayNumber
         {
@@ -138,11 +148,7 @@ namespace KtMobileApp.ViewModels
             }
         }
 
-        public string ImageBanner { get; set; }
-        //public string DayNumber { get; set; }
-        //public string LocationName { get; set; }
-        //public string DayDate { get; set; }
-        //public string CompleteDescription { get; set; }
+        public string ImageBanner { get; set; }       
 
         public ImageSource ImageSourcePassed
         {

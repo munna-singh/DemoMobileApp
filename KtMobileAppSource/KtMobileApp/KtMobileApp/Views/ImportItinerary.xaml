@@ -56,7 +56,7 @@
                             </Image>
                             <Label Text="{Binding ImportTripReferenceStatusMessage}"  ></Label>
                         </StackLayout>
-                        <BoxView HeightRequest="3" Color="Gray"  HorizontalOptions="FillAndExpand"></BoxView>
+                        <BoxView HeightRequest="1" Color="Gray"  HorizontalOptions="FillAndExpand"></BoxView>
                     </StackLayout>
                     <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="Black"
                                VerticalOptions="CenterAndExpand"

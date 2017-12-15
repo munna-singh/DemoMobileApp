@@ -17,8 +17,7 @@ namespace KtMobileApp.Views
 	{
         private ItineraryDayViewModel viewModel;
         private List<int> _totalTripDays;
-       
-
+        
         private string _tripTitle;
 
         public ItineraryCompleteDetails (ItineraryDailyBreakDown parentViewModel)
@@ -29,19 +28,16 @@ namespace KtMobileApp.Views
             var tripService = new Itinerary();
             _totalTripDays = tripService.GetItineraryDays(parentViewModel.TripId).Select(func=>func.ItineraryDayId).ToList();
             _tripTitle = parentViewModel.TripTitle;
-
+            
             var triDayObject = tripService.GetItineraryDayDesc(parentViewModel.itineraryDayId);
 
 
             viewModel = new ItineraryDayViewModel();
             viewModel.DayCompleteDetails = viewModel.GetitinerayCompleteDesc(triDayObject);
             viewModel.DayCompleteDetails.DayNumber = parentViewModel.DayNumber.ToString();
-
-            //viewModel.DayNumber = parentViewModel.DayNumber.ToString();
-            //viewModel.DayDate = triDayObject.TimeOfDayId.ToString();
-            //viewModel.LocationName = $"{triDayObject.SourceName}-{triDayObject.DestName}";
-            //viewModel.ImageBanner = "KtMobileApp.Assets.Images.BannerImage_2_256_256.png";
-            //viewModel.CompleteDescription = triDayObject.Description;
+            viewModel.DayCompleteDetails.ItineraryId = parentViewModel.TripId;
+            viewModel.DayCompleteDetails.ItineraryDayId = parentViewModel.itineraryDayId;
+            
             viewModel.Title = parentViewModel.TripTitle;
 
             BindingContext = viewModel;

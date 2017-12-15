@@ -36,6 +36,7 @@ namespace KtMobileApp.ViewModels
         public string ItineraryDayDescription { set; get; }
         public string ImageResourceActivityPath { set; get; }
         public string TripTitle { set; get; }
+        public string TripDayHighlights { set; get; }
 
         private string _imageResourcePassedPath;
         public string ImageResourcePassedPath
