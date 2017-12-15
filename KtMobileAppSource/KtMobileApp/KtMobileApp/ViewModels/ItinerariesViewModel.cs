@@ -1,4 +1,5 @@
-﻿using KT.BusinessLayer;
+﻿using Acr.UserDialogs;
+using KT.BusinessLayer;
 using KT.DAL.Models;
 using KtMobileApp.Models;
 using KtMobileApp.Views;
@@ -58,7 +59,7 @@ namespace KtMobileApp.ViewModels
             ItineraryList = new ObservableCollection<ItineraryViewModel>();
             LoadItineraryCommand = new Command(() => ExecuteLoadItemsCommand());
             ImportItineraryScreen = new Command(async () => await OpenPage());
-            ShowHomeScreen = new Command(async () => await OpenHomePage());
+            ShowHomeScreen = new Command(async () => await OpenHomePage());            
         }
 
         void ExecuteLoadItemsCommand()
@@ -102,8 +103,7 @@ namespace KtMobileApp.ViewModels
         }
 
         public async Task OpenPage()
-        {
-            //TODO
+        {              //TODO
             await _navigation.PushModalAsync(new ImportItinerary()); //_pageNavigation.PushModalAsync(new Page) ; NOTE: this is for Modal Dialog
         }
 

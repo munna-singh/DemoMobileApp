@@ -26,7 +26,7 @@ namespace KtMobileApp.ViewModels
 
         public ItineraryDetailsViewModel(INavigation MainPageNavigation, ItineraryViewModel itineraryVm)
         {
-            Title = "Itinerary Details";
+            Title = itineraryVm.TripName;
             _navigation = MainPageNavigation;
             _itineraryVm = itineraryVm;
             ItineraryDailyBreakDown = new ObservableCollection<ItineraryDailyBreakDown>();
@@ -47,7 +47,7 @@ namespace KtMobileApp.ViewModels
                 DateTime startDate = DateTime.Today.AddDays(-2);
                 var itineraryDailyBreakdown = itineraryManager.GetItineraryDays(_itineraryVm.TripId);
                 int cntr = 0;
-                foreach (ItineraryDays dto in itineraryDailyBreakdown)
+                foreach (ItineraryDayDto dto in itineraryDailyBreakdown)
                 {
                     cntr++;
                     var newItem = new ItineraryDailyBreakDown(_navigation);
@@ -56,11 +56,14 @@ namespace KtMobileApp.ViewModels
                     //TODO; change after demo
                     dto.ItineraryDayDate = tripDayDate.ToString("MMM dd, yyyy");
 
-                    newItem.DayNumber = dto.Day;
+                    newItem.TripId = _itineraryVm.TripId;
+                    newItem.DayNumber = Int16.Parse(dto.Day);
                     newItem.Location = dto.Summary;
                     newItem.TripDayDate = dto.ItineraryDayDate;
-                    newItem.ItineraryDayDescription = dto.Notes;
+                    newItem.ItineraryDayDescription = string.Join("\r\n", dto.Highlights);
                     newItem.itineraryDayId = dto.ItineraryDayId;
+                    newItem.TripTitle = Title;
+                    //newItem.TripDayHighlights = 
 
                     //Check for past days
                     if (tripDayDate < DateTime.Today)

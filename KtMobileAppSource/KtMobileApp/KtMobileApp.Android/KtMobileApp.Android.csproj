@@ -140,6 +140,9 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\Plus_128_128.png" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\Home_64_64.png" />
+  </ItemGroup>
+  <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\Next_Button_128_128.png" />
   </ItemGroup>
   <ItemGroup>

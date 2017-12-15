@@ -11,16 +11,9 @@ namespace Sqlite.test
     public class InsertTest
     {
         [Test]
-        public void AddItineraryTest()
-        {
-            var tripRefNum = "Wil5T-419600";
-            var ktBL = new KT.BusinessLayer.Itinerary();
-            var tripServiceData = ktBL.AddItinerary(tripRefNum);
-        }
-
-        [Test]
         public void GetItineraryTest()
         {
+
             var tripRefNum = "Wil5T-419600";
             var ktBL = new KT.BusinessLayer.Itinerary();
             var tripServiceData = ktBL.GetItinerary(tripRefNum);
@@ -41,15 +34,6 @@ namespace Sqlite.test
             var itinDayId = 12266038; //itinerayId based on tripRefNum 
             var ktBL = new KT.BusinessLayer.Itinerary();
             var tripServiceData = ktBL.GetItineraryDayDesc(itinDayId);
-        }
-
-        [Test]
-        public void GetItineraryDayHighlightsTest()
-        {
-            var itinId = 1042157; //itinerayId based on tripRefNum 
-            var itinDayId = 12266035; //itinerayId based on tripRefNum 
-            var ktBL = new KT.BusinessLayer.Itinerary();
-            var tripServiceData = ktBL.GetItineraryDayHighlights(itinId,itinDayId);
         }
 
     }
