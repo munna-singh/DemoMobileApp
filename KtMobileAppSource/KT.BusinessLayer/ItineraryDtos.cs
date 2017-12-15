@@ -5,6 +5,24 @@ using System.Collections.Generic;
 namespace KT.BusinessLayer
 {
 
+    public class ItineraryDayDescDto
+    {
+        public int Id { get; set; }
+        public int ItineraryDayId { get; set; }
+        public int ItineraryId { get; set; }
+        public string TripStartDate { get; set; }
+        public int DayNumber { get; set; }
+        public string LocationName { get; set; }
+        public List<SummaryDto> Summary { get; set; }
+    }
+
+    public class SummaryDto
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }       
+      
+    }
+
     public class ItineraryDayDto
     {
         public int ItineraryDayId { get; set; }

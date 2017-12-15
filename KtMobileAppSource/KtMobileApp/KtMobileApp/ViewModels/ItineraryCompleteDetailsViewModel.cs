@@ -70,13 +70,13 @@ namespace KtMobileApp.ViewModels
             DayCompleteDetails = GetitinerayCompleteDesc(triDayObject);
         }
 
-        public ItineraryCompleteDetailsViewModel GetitinerayCompleteDesc(ItineraryDayDesc triDayObject)
+        public ItineraryCompleteDetailsViewModel GetitinerayCompleteDesc(ItineraryDayDescDto triDayObject)
         {
             var itineraryDesc = new ItineraryCompleteDetailsViewModel();            
-            itineraryDesc.DayDate = triDayObject.TimeOfDayId.ToString();
-            itineraryDesc.LocationName = $"{triDayObject.SourceName}-{triDayObject.DestName}";
+           // itineraryDesc.DayDate = triDayObject.TimeOfDayId.ToString();
+            itineraryDesc.LocationName = $"{triDayObject.LocationName}";
             itineraryDesc.ImageBanner = "KtMobileApp.Assets.Images.BannerImage_2_256_256.png";
-            itineraryDesc.CompleteDescription = triDayObject.Description;
+           // itineraryDesc.CompleteDescription = triDayObject.Description;
             itineraryDesc.DayNumber = triDayObject.DayNumber.ToString();
             itineraryDesc.ItineraryId = triDayObject.ItineraryId;
             itineraryDesc.ItineraryDayId = triDayObject.ItineraryDayId;
