@@ -77,6 +77,7 @@ namespace KtMobileApp.ViewModels
             itineraryDesc.LocationName = $"{triDayObject.SourceName}-{triDayObject.DestName}";
             itineraryDesc.ImageBanner = "KtMobileApp.Assets.Images.BannerImage_2_256_256.png";
             itineraryDesc.CompleteDescription = triDayObject.Description;
+            itineraryDesc.Highlits = triDayObject.Description;
             itineraryDesc.DayNumber = triDayObject.DayNumber.ToString();
             itineraryDesc.ItineraryId = triDayObject.ItineraryId;
             itineraryDesc.ItineraryDayId = triDayObject.ItineraryDayId;
@@ -144,6 +145,17 @@ namespace KtMobileApp.ViewModels
             set
             {
                 _CompleteDescription = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _Highlits;
+        public string Highlits
+        {
+            get { return _Highlits; }
+            set
+            {
+                _Highlits = value;
                 OnPropertyChanged();
             }
         }

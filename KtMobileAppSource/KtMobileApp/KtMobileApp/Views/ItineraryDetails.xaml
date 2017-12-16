@@ -42,7 +42,7 @@
                                             <Label Text="DAY" FontSize="Medium"  TextColor="#F5F5F5" HorizontalOptions="CenterAndExpand" LineBreakMode="NoWrap"/>
                                             <Label Text="{Binding DayNumber}" FontSize="Medium" TextColor="#F5F5F5" HorizontalOptions="CenterAndExpand" LineBreakMode="NoWrap"/>
                                         </StackLayout>
-                                        <StackLayout Grid.Column="1" Padding="2"                                             
+                                        <StackLayout Grid.Column="1"                                              
                                              VerticalOptions="Center" >
                                             <Image Source="{Binding ImageSourceActivity}" ></Image>
                                         </StackLayout>
@@ -52,7 +52,7 @@
                                             <Label Text="{Binding Location}" FontSize="Small"  TextColor="#3498DB" LineBreakMode="WordWrap"/>
                                             <Label Text="{Binding TripDayDate}" FontSize="Small" LineBreakMode="WordWrap"/>
                                         </StackLayout>
-                                        <StackLayout Grid.Column="3" Padding="2"                                             
+                                        <StackLayout Grid.Column="3"                                              
                                               Orientation="Horizontal" >
                                             <Image Source="{Binding ImageSourcePastTripDay}" VerticalOptions="Center" HorizontalOptions="End" Opacity="{Binding ImageSourcePastTripDayHide}" ></Image>                                            
                                         </StackLayout>

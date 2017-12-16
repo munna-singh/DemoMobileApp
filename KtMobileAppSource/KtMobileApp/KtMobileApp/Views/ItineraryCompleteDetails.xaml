@@ -39,7 +39,18 @@
             </StackLayout>
             <StackLayout>
                 <Image Source="{Binding DayCompleteDetails.ImageSourcePassed}"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFill" ></Image>
-                <Label Text="{Binding DayCompleteDetails.CompleteDescription, Mode=TwoWay}" FontSize="Micro" FontAttributes="None"/>
+                <Label Text="Highlits:" FontSize="Medium" Margin="5" FontAttributes="Bold"/>
+              
+                <ScrollView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
+                    <Label Text="{Binding DayCompleteDetails.Highlits, Mode=TwoWay}" FontSize="Micro" FontAttributes="None"/>
+                </ScrollView>
+                <Label Text="Description:" FontSize="Medium" Margin="5" FontAttributes="Bold"/>
+                <ScrollView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
+                    <Label Text="{Binding DayCompleteDetails.CompleteDescription, Mode=TwoWay}" FontSize="Micro" FontAttributes="None"/>
+                </ScrollView>
+                <!--<StackLayout>
+                    
+                </StackLayout>-->
             </StackLayout>
         </StackLayout>       
     </ContentPage.Content>
