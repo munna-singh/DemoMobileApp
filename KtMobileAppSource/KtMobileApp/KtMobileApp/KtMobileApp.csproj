@@ -80,6 +80,7 @@
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="6.5.1" />
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.121934" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="2.5.0.121934" />
   </ItemGroup>
 
   <ItemGroup>
