@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace KtMobileApp.ViewModels
 {
@@ -60,7 +61,7 @@ namespace KtMobileApp.ViewModels
                     newItem.DayNumber = Int16.Parse(dto.Day);
                     newItem.Location = dto.Summary;
                     newItem.TripDayDate = dto.ItineraryDayDate;
-                    newItem.ItineraryDayDescription = string.Join("\r\n", dto.Highlights);
+                    newItem.ItineraryDayDescription = @"<html><body><ul style='list-style-type:disc'>" + dto.Highlights.Select(item=>$"<li>{item}</li>") + @"</ul></body></html>";
                     newItem.itineraryDayId = dto.ItineraryDayId;
                     newItem.TripTitle = Title;
                     //newItem.TripDayHighlights = 

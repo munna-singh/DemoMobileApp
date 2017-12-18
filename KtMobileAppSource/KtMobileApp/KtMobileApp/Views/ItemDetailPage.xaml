@@ -1,12 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:KtMobileApp.ViewModels;assembly=KtMobileApp"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
              x:Class="KtMobileApp.Views.ItemDetailPage"
              Title="{Binding Title}">
+    <!--xmlns:local="clr-namespace:KtMobileApp.ViewModels;assembly=KtMobileApp.ViewModels"-->
+    <!--<ContentPage.Resources>
+        <ResourceDictionary>
+            <local:HtmlSourceConverter x:Key="htmlConverter"></local:HtmlSourceConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>-->
+    
     <StackLayout Spacing="20" Padding="15">
         <Label Text="Text:" FontSize="Medium" />
         <Label Text="{Binding Item.Text}" FontSize="Small"/>
         <Label Text="Description:" FontSize="Medium" />
         <Label Text="{Binding Item.Description}" FontSize="Small"/>
+        <Label Text="WebTagsDemo:" FontSize="Medium" Margin="5" FontAttributes="Bold"/>
+        <WebView VerticalOptions="FillAndExpand">
+            <WebView.Source>
+                <HtmlWebViewSource Html="{Binding CompleteDescription}"/>
+            </WebView.Source>
+        </WebView>
+        <!--<WebView  Source="{Binding CompleteDescription,Converter={StaticResource htmlConverter},  Mode=TwoWay}"  />-->
+        
     </StackLayout>
 </ContentPage>

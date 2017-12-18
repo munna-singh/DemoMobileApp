@@ -162,17 +162,19 @@ namespace KtMobileApp.ViewModels
             //AFTER success
             if (tripCallResponse==TripImportStatus.Add || tripCallResponse == TripImportStatus.Update)
             {
-                ImportTripReferenceStatusMessage = tripCallResponse == TripImportStatus.Update?"Itinerary already exists !":"Successfully Imported";
+                ImportTripReferenceStatusMessage = tripCallResponse == TripImportStatus.Update ? "Itinerary updated with latest info !" : "Successfully Imported !";
                 ShowImportTripView = false;
                 ShowImportTripStatusView = true;
                 ShowSuccessIcon = true;
                 ShowFailedIcon = false;
             }
             else
-            {
+            {               
+                ImportTripReferenceStatusMessage = "Problem loading api response";
                 ShowImportTripView = false;
                 ShowImportTripStatusView = true;
                 ShowFailedIcon = true;
+                ShowSuccessIcon = false;
             }
         }
     }

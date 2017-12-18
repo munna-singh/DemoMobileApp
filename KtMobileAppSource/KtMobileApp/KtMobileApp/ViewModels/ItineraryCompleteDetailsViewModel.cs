@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using KT.BusinessLayer;
 using KT.DAL.Models;
+using System.Linq;
+using System.Globalization;
 
 namespace KtMobileApp.ViewModels
 {
@@ -72,11 +74,17 @@ namespace KtMobileApp.ViewModels
 
         public ItineraryCompleteDetailsViewModel GetitinerayCompleteDesc(ItineraryDayDescDto triDayObject)
         {
-            var itineraryDesc = new ItineraryCompleteDetailsViewModel();            
-           // itineraryDesc.DayDate = triDayObject.TimeOfDayId.ToString();
+            var itineraryDesc = new ItineraryCompleteDetailsViewModel();         
+           
             itineraryDesc.LocationName = $"{triDayObject.LocationName}";
             itineraryDesc.ImageBanner = "KtMobileApp.Assets.Images.BannerImage_2_256_256.png";
-           // itineraryDesc.CompleteDescription = triDayObject.Description;
+           
+            var summaryDesc = triDayObject.Summary.Select(item => $"{item.Name}:{item.Description}.");
+
+            //NOTE: this is for Web html view, so you need to form html doc and then enclose ypur html content within
+            //For bullet Items, if we use <ul><li></li><li></li></ul>; this we can use in itineraryDetails.xaml page for collapsible panel highlights to show bullets.
+            itineraryDesc.CompleteDescription = @"<html><body>" + summaryDesc + @"</body></html>";   
+            
             itineraryDesc.DayNumber = triDayObject.DayNumber.ToString();
             itineraryDesc.ItineraryId = triDayObject.ItineraryId;
             itineraryDesc.ItineraryDayId = triDayObject.ItineraryDayId;
@@ -148,6 +156,17 @@ namespace KtMobileApp.ViewModels
             }
         }
 
+        private string _Highlits;
+        public string Highlits
+        {
+            get { return _Highlits; }
+            set
+            {
+                _Highlits = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string ImageBanner { get; set; }       
 
         public ImageSource ImageSourcePassed
@@ -158,4 +177,24 @@ namespace KtMobileApp.ViewModels
             }
         }       
     }
+
+    //public class HtmlSourceConverter : IValueConverter
+    //{
+    //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        var html = new HtmlWebViewSource();
+
+    //        if (value != null)
+    //        {
+    //            html.Html = value.ToString();
+    //        }
+
+    //        return html;
+    //    }
+       
+    //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 }

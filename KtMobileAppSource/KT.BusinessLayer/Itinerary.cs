@@ -41,6 +41,8 @@ namespace KT.BusinessLayer
             apiUri = string.Format("{0}/{1}", "trips", tripId);
             var tripObject = new KTApi<TripDto>().Get(apiUri);
 
+            if (tripObject == null) return false;
+
             //Insert to db object 
             var tripService = new TripServices()
             {
@@ -52,6 +54,31 @@ namespace KT.BusinessLayer
                 NoOfDays = tripObject.NumberOfDays,
                 NoOfPeople = tripObject.NumberOfPeople,
                 GroupName = tripObject.GroupName,
+                ImageSrc = "",
+                IsArchived = 0
+            };
+
+            //Initialize db
+            var ktdb = new KT.DAL.KTdb();
+            //insert trip
+            var insertCount = ktdb.Insert(tripService);
+
+            return true;
+        }
+
+        private bool InsertTripDataFromApi(TripDto tripApiResponseObject)
+        {
+           //Insert to db object 
+            var tripService = new TripServices()
+            {
+                Id = tripApiResponseObject.TripId,
+                Name = tripApiResponseObject.TripName,
+                ItineraryId = Convert.ToInt32(tripApiResponseObject.SystemOfRecordId.Replace("KT:IT-", "")),
+                RefNum = tripApiResponseObject.TripReference,
+                StartDate = tripApiResponseObject.TripStartDate,
+                NoOfDays = tripApiResponseObject.NumberOfDays,
+                NoOfPeople = tripApiResponseObject.NumberOfPeople,
+                GroupName = tripApiResponseObject.GroupName,
                 ImageSrc = "",
                 IsArchived = 0
             };
@@ -83,7 +110,8 @@ namespace KT.BusinessLayer
             //Add
             if (tripServiceId == 0)
             {
-                InsertTripDataFromApi(tripIdInt);
+                var apiResponse = InsertTripDataFromApi(tripIdInt);
+                if (!apiResponse) return TripImportStatus.Error;
 
                 //get itineraryId 
                 var itinId = ktdb.ExecuteScalar<int>("select ItineraryId from TripServices where Id = ?", tripIdInt);
@@ -97,13 +125,23 @@ namespace KT.BusinessLayer
                 //save itineraryId 
                 var itinId = ktdb.ExecuteScalar<int>("select ItineraryId from TripServices where Id = ?", tripIdInt);
 
-                //delete data for this trip
+                //Webservice to fetch data related to trip this tripId
+                apiUri = string.Format("{0}/{1}", "trips", tripIdInt);
+                var tripApiResponseObject = new KTApi<TripDto>().Get(apiUri);
+
+                if (tripApiResponseObject == null) return TripImportStatus.Error;
+
+                //IF api response is GOOD, then delete data for this trip
                 ktdb.Table<ItineraryDayDesc>().Delete(x => x.ItineraryId == itinId);
                 ktdb.Table<ItineraryDays>().Delete(x => x.ItineraryId == itinId);
-                ktdb.Table<TripServices>().Delete(x=>x.Id== tripServiceId);
+                ktdb.Table<TripServices>().Delete(x => x.Id == tripServiceId);
 
-                //reload the data
-                InsertTripDataFromApi(tripIdInt);
+                //Insert new record in DB
+                var apiResponse = InsertTripDataFromApi(tripApiResponseObject);
+
+                if(!apiResponse) return TripImportStatus.Error;               
+
+                //Retreive from Db, with latest updates
                 GetItineraryDays(itinId);
 
                 //update as status

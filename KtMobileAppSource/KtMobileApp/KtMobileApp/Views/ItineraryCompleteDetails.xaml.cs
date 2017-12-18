@@ -31,7 +31,6 @@ namespace KtMobileApp.Views
             
             var triDayObject = tripService.GetItineraryDayDesc(parentViewModel.itineraryDayId);
 
-
             viewModel = new ItineraryDayViewModel();
             viewModel.DayCompleteDetails = viewModel.GetitinerayCompleteDesc(triDayObject);
             viewModel.DayCompleteDetails.DayNumber = parentViewModel.DayNumber.ToString();

@@ -6,7 +6,7 @@
              Title="{Binding Title}"
              >
     <ContentPage.Content>
-        <StackLayout>            
+        <StackLayout>
             <StackLayout BackgroundColor="#BFAD87" Padding="0">
                 <Grid Padding="0">
                     <Grid.ColumnDefinitions>
@@ -37,11 +37,17 @@
                 </Grid>
 
             </StackLayout>
-            <StackLayout>
-                <Image Source="{Binding DayCompleteDetails.ImageSourcePassed}"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFill" ></Image>
-                <Label Text="{Binding DayCompleteDetails.CompleteDescription, Mode=TwoWay}" FontSize="Micro" FontAttributes="None"/>
+            <Image Source="{Binding DayCompleteDetails.ImageSourcePassed}"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFill" ></Image>
+            <StackLayout VerticalOptions="FillAndExpand">
+               
+                <!--<Label Text="Description:" FontSize="Medium" Margin="5" FontAttributes="Bold"/>-->
+                <WebView VerticalOptions="FillAndExpand">
+                    <WebView.Source>
+                        <HtmlWebViewSource Html="{Binding DayCompleteDetails.CompleteDescription}"/>
+                    </WebView.Source>
+                </WebView>               
             </StackLayout>
-        </StackLayout>       
+        </StackLayout>
     </ContentPage.Content>
-   
+
 </ContentPage>
