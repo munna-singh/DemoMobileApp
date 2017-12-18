@@ -3,10 +3,9 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:views="clr-namespace:KtMobileApp.Views"
             x:Class="KtMobileApp.Views.MainPage" BackgroundImage="{Binding BackImage}">
-
-    <views:HomePage Icon="Home_64_64"/>
-    <views:Itineraries Icon="trip_64_64" />    
-    <views:AboutPage Icon="message_64_64" />
-    <views:ItemsPage Icon="Settings_64_64" />
+    
+    <!--<views:Itineraries Icon="trip_64_64" />
+    <views:AboutPage Icon="Map_64_64" Title="Map" />
+    <views:ItemsPage Icon="Settings_64_64" />-->
     
 </TabbedPage>

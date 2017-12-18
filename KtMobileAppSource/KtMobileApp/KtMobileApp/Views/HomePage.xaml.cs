@@ -17,7 +17,8 @@ namespace KtMobileApp.Views
 
         public HomePage ()
 		{
-			InitializeComponent ();
+            NavigationPage.SetHasNavigationBar(this, false);
+            InitializeComponent ();
             viewModel = new HomePageViewModel();
             Title = "Home";
 			viewModel.LocationImagePath = "KtMobileApp.Assets.Images.locationWhite.png";
@@ -30,5 +31,11 @@ namespace KtMobileApp.Views
 			BindingContext = viewModel;
 
         }
-	}
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            NavigationPage.SetHasNavigationBar(this, false);
+        }
+    }
 }
