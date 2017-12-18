@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using KT.BusinessLayer;
 using KT.DAL.Models;
+using System.Linq;
+using System.Globalization;
 
 namespace KtMobileApp.ViewModels
 {
@@ -70,14 +72,19 @@ namespace KtMobileApp.ViewModels
             DayCompleteDetails = GetitinerayCompleteDesc(triDayObject);
         }
 
-        public ItineraryCompleteDetailsViewModel GetitinerayCompleteDesc(ItineraryDayDesc triDayObject)
+        public ItineraryCompleteDetailsViewModel GetitinerayCompleteDesc(ItineraryDayDescDto triDayObject)
         {
-            var itineraryDesc = new ItineraryCompleteDetailsViewModel();            
-            itineraryDesc.DayDate = triDayObject.TimeOfDayId.ToString();
-            itineraryDesc.LocationName = $"{triDayObject.SourceName}-{triDayObject.DestName}";
+            var itineraryDesc = new ItineraryCompleteDetailsViewModel();         
+           
+            itineraryDesc.LocationName = $"{triDayObject.LocationName}";
             itineraryDesc.ImageBanner = "KtMobileApp.Assets.Images.BannerImage_2_256_256.png";
-            itineraryDesc.CompleteDescription = triDayObject.Description;
-            itineraryDesc.Highlits = triDayObject.Description;
+           
+            var summaryDesc = triDayObject.Summary.Select(item => $"{item.Name}:{item.Description}.");
+
+            //NOTE: this is for Web html view, so you need to form html doc and then enclose ypur html content within
+            //For bullet Items, if we use <ul><li></li><li></li></ul>; this we can use in itineraryDetails.xaml page for collapsible panel highlights to show bullets.
+            itineraryDesc.CompleteDescription = @"<html><body>" + summaryDesc + @"</body></html>";   
+            
             itineraryDesc.DayNumber = triDayObject.DayNumber.ToString();
             itineraryDesc.ItineraryId = triDayObject.ItineraryId;
             itineraryDesc.ItineraryDayId = triDayObject.ItineraryDayId;
@@ -170,4 +177,24 @@ namespace KtMobileApp.ViewModels
             }
         }       
     }
+
+    //public class HtmlSourceConverter : IValueConverter
+    //{
+    //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        var html = new HtmlWebViewSource();
+
+    //        if (value != null)
+    //        {
+    //            html.Html = value.ToString();
+    //        }
+
+    //        return html;
+    //    }
+       
+    //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 }

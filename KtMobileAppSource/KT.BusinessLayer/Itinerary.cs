@@ -41,6 +41,8 @@ namespace KT.BusinessLayer
             apiUri = string.Format("{0}/{1}", "trips", tripId);
             var tripObject = new KTApi<TripDto>().Get(apiUri);
 
+            if (tripObject == null) return false;
+
             //Insert to db object 
             var tripService = new TripServices()
             {
@@ -52,6 +54,31 @@ namespace KT.BusinessLayer
                 NoOfDays = tripObject.NumberOfDays,
                 NoOfPeople = tripObject.NumberOfPeople,
                 GroupName = tripObject.GroupName,
+                ImageSrc = "",
+                IsArchived = 0
+            };
+
+            //Initialize db
+            var ktdb = new KT.DAL.KTdb();
+            //insert trip
+            var insertCount = ktdb.Insert(tripService);
+
+            return true;
+        }
+
+        private bool InsertTripDataFromApi(TripDto tripApiResponseObject)
+        {
+           //Insert to db object 
+            var tripService = new TripServices()
+            {
+                Id = tripApiResponseObject.TripId,
+                Name = tripApiResponseObject.TripName,
+                ItineraryId = Convert.ToInt32(tripApiResponseObject.SystemOfRecordId.Replace("KT:IT-", "")),
+                RefNum = tripApiResponseObject.TripReference,
+                StartDate = tripApiResponseObject.TripStartDate,
+                NoOfDays = tripApiResponseObject.NumberOfDays,
+                NoOfPeople = tripApiResponseObject.NumberOfPeople,
+                GroupName = tripApiResponseObject.GroupName,
                 ImageSrc = "",
                 IsArchived = 0
             };
@@ -83,7 +110,8 @@ namespace KT.BusinessLayer
             //Add
             if (tripServiceId == 0)
             {
-                InsertTripDataFromApi(tripIdInt);
+                var apiResponse = InsertTripDataFromApi(tripIdInt);
+                if (!apiResponse) return TripImportStatus.Error;
 
                 //get itineraryId 
                 var itinId = ktdb.ExecuteScalar<int>("select ItineraryId from TripServices where Id = ?", tripIdInt);
@@ -97,13 +125,23 @@ namespace KT.BusinessLayer
                 //save itineraryId 
                 var itinId = ktdb.ExecuteScalar<int>("select ItineraryId from TripServices where Id = ?", tripIdInt);
 
-                //delete data for this trip
+                //Webservice to fetch data related to trip this tripId
+                apiUri = string.Format("{0}/{1}", "trips", tripIdInt);
+                var tripApiResponseObject = new KTApi<TripDto>().Get(apiUri);
+
+                if (tripApiResponseObject == null) return TripImportStatus.Error;
+
+                //IF api response is GOOD, then delete data for this trip
                 ktdb.Table<ItineraryDayDesc>().Delete(x => x.ItineraryId == itinId);
                 ktdb.Table<ItineraryDays>().Delete(x => x.ItineraryId == itinId);
-                ktdb.Table<TripServices>().Delete(x=>x.Id== tripServiceId);
+                ktdb.Table<TripServices>().Delete(x => x.Id == tripServiceId);
 
-                //reload the data
-                InsertTripDataFromApi(tripIdInt);
+                //Insert new record in DB
+                var apiResponse = InsertTripDataFromApi(tripApiResponseObject);
+
+                if(!apiResponse) return TripImportStatus.Error;               
+
+                //Retreive from Db, with latest updates
                 GetItineraryDays(itinId);
 
                 //update as status
@@ -206,13 +244,13 @@ namespace KT.BusinessLayer
                     List<string> srcDest = new List<string>();
                     foreach(var dayDesc in itinDayDesc)
                     {
-                        if (dayDesc.SourceName != "Global Location")
+                        if (!string.IsNullOrEmpty(dayDesc.SourceName) && dayDesc.SourceName != "Global Location")
                         {
                             if (!srcDest.Contains(dayDesc.SourceName))
                                 srcDest.Add(dayDesc.SourceName);
                         }
 
-                        if (dayDesc.DestName != "Global Location")
+                        if (!string.IsNullOrEmpty(dayDesc.DestName) && dayDesc.DestName != "Global Location")
                         {
                             if (!srcDest.Contains(dayDesc.DestName))
                                 srcDest.Add(dayDesc.DestName);
@@ -280,16 +318,59 @@ namespace KT.BusinessLayer
         /// </summary>
         /// <param name="itineraryDayId"></param>
         /// <returns></returns>
-        public ItineraryDayDesc GetItineraryDayDesc(int itineraryDayId)
+        public ItineraryDayDescDto GetItineraryDayDesc(int itineraryDayId)
         {
+            var dayDescDto = new ItineraryDayDescDto();
+
             //validation
             if (itineraryDayId <0 ) throw new ArgumentException("Provide a valid ItineraryDayId.");
             //fetch and return from db
             var ktdb = new KT.DAL.KTdb();
             var itinIdExists = ktdb.ExecuteScalar<int>("select count(1) from ItineraryDayDesc where ItineraryDayId = ?", itineraryDayId);
-            if (itinIdExists > 0) return ktdb.Get<ItineraryDayDesc>(x => x.ItineraryDayId == itineraryDayId);
+            if (itinIdExists > 0)
+            {
+                var dayDescList = ktdb.Table<ItineraryDayDesc>().Where(x => x.ItineraryDayId == itineraryDayId).OrderBy(y=>y.TimeOfDayId).ThenBy(z=>z.DisplayOrder).ToList();
 
-            return null;
+                var summaryDescList = new List<SummaryDto>();
+
+                //find source and destination to update in ItineraryDay table
+                List<string> srcDest = new List<string>();
+                foreach (var dayDesc in dayDescList)
+                {
+                    if (!string.IsNullOrEmpty(dayDesc.SourceName) && dayDesc.SourceName != "Global Location")
+                    {
+                        if (!srcDest.Contains(dayDesc.SourceName))
+                            srcDest.Add(dayDesc.SourceName);
+                    }
+
+                    if (!string.IsNullOrEmpty(dayDesc.DestName) && dayDesc.DestName != "Global Location")
+                    {
+                        if (!srcDest.Contains(dayDesc.DestName))
+                            srcDest.Add(dayDesc.DestName);
+                    }
+
+                    var summayDesc = new SummaryDto()
+                    {
+                        Name = dayDesc.CustomDisplayName,
+                        Description = dayDesc.Description                       
+                    };
+                    summaryDescList.Add(summayDesc);
+                }
+
+                var day = dayDescList.FirstOrDefault();
+
+                dayDescDto = new ItineraryDayDescDto()
+                {
+                    Id = day.Id,
+                    TripStartDate = day.TripStartDate,
+                    ItineraryDayId = day.ItineraryDayId,
+                    ItineraryId = day.ItineraryId,
+                    LocationName = string.Join("-", srcDest),
+                    DayNumber = day.DayNumber,
+                    Summary = summaryDescList
+                };
+            }
+            return dayDescDto;
         }
 
         /// <summary>
@@ -297,7 +378,7 @@ namespace KT.BusinessLayer
         /// </summary>
         /// <param name="itineraryDayId"></param>
         /// <returns></returns>
-        public ItineraryDayDesc GetItineraryNextDay(int itineraryDayId, int itineraryId, int dayNum)
+        public ItineraryDayDescDto GetItineraryNextDay(int itineraryDayId, int itineraryId, int dayNum)
         {
             var ktdb = new KT.DAL.KTdb();
             var itinIdExists = ktdb.ExecuteScalar<int>("select count(1) from ItineraryDayDesc where ItineraryDayId = ?", itineraryDayId);
@@ -316,7 +397,7 @@ namespace KT.BusinessLayer
         /// </summary>
         /// <param name="itineraryDayId"></param>
         /// <returns></returns>
-        public ItineraryDayDesc GetItineraryPreviousDay(int itineraryDayId, int itineraryId, int dayNum)
+        public ItineraryDayDescDto GetItineraryPreviousDay(int itineraryDayId, int itineraryId, int dayNum)
         {
             var ktdb = new KT.DAL.KTdb();
             var itinIdExists = ktdb.ExecuteScalar<int>("select count(1) from ItineraryDayDesc where ItineraryDayId = ?", itineraryDayId);

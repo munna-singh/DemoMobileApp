@@ -8,6 +8,7 @@ namespace KT.DAL.Models
         public int Id { get; set; }
         public int ItineraryDayId { get; set; }
         public int ItineraryId { get; set; }
+        public string TripStartDate { get; set; }
         public int DayNumber { get; set; }
         public int TimeOfDayId { get; set; }
         public string CustomDisplayName { get; set; }

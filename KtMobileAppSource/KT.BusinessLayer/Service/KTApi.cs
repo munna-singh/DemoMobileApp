@@ -8,7 +8,7 @@ namespace KT.BusinessLayer.Service
 {
     public class KTApi<T>
     {
-        private string baseUri;
+        private readonly string baseUri;
 
         public KTApi()
         {
@@ -23,7 +23,7 @@ namespace KT.BusinessLayer.Service
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<T>(response.Content.ReadAsStringAsync().Result);
 
-            return (T)Activator.CreateInstance(typeof(T));
+            return default(T);
         }
 
     }

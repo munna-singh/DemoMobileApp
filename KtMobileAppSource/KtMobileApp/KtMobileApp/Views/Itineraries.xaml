@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:CustomControls="clr-namespace:KtMobileApp.Controls;assembly=KtMobileApp"
              xmlns:local="clr-namespace:KtMobileApp.MarkupExtensions;assembly=KtMobileApp"
-             x:Class="KtMobileApp.Views.Itineraries"
+             x:Class="KtMobileApp.Views.Itineraries"             
              >
     <ContentPage.ToolbarItems>
-            <ToolbarItem Order="Primary" Text="My Trips      "  />
-            <ToolbarItem Order="Primary" Icon="Home_128_128.png" Priority="0" StyleId="" Command="{Binding ShowHomeScreen}"  />
+            <ToolbarItem Order="Primary" Text="My Trips                              "  />
+            <!--<ToolbarItem Order="Primary" Icon="Home_128_128.png" Priority="0" StyleId="" Command="{Binding ShowHomeScreen}"  />-->
             <ToolbarItem Order="Primary" Icon="Plus_128_128.png" Priority="1" Command="{Binding ImportItineraryScreen}" />
     </ContentPage.ToolbarItems>
 

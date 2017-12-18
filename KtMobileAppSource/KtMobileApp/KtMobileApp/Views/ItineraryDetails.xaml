@@ -62,7 +62,13 @@
                                     <BoxView HeightRequest="1" Color="Gray"  HorizontalOptions="FillAndExpand"></BoxView>
                                     <Label Text ="Highlits:" FontAttributes="Bold"></Label>
 
-                                    <Label Text="{Binding ItineraryDayDescription}" FontSize="Micro" FontAttributes="None" />
+                                    <!--<Label Text="{Binding ItineraryDayDescription}" FontSize="Micro" FontAttributes="None" />-->
+                                    <WebView VerticalOptions="FillAndExpand">
+                                        <WebView.Source>
+                                            <HtmlWebViewSource Html="{Binding ItineraryDayDescription}"/>
+                                        </WebView.Source>
+                                    </WebView>
+                                    
                                     <!--<CustomControls:CustomLabel IsUnderlined="True" Text="View Details" FontSize="18" HorizontalOptions="CenterAndExpand" />-->
                                     <Label Text="View Details >" 
                                            VerticalOptions="Center"

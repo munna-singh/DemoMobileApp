@@ -10,6 +10,6 @@ namespace KT.BusinessLayer.Interface
     {
         TripServices GetItinerary(string tripRefNumber);
         ItineraryDays[] GetItineraryDays(int itineraryId);
-        ItineraryDayDesc GetItineraryDayDesc(int itineraryDayId);
+        ItineraryDayDescDto GetItineraryDayDesc(int itineraryDayId);
     }
 }
