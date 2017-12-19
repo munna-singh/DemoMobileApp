@@ -16,6 +16,7 @@ namespace KtMobileApp.Views
 	{
         HomePageViewModel viewModel;
 
+
         public HomePage ()
 		{
             NavigationPage.SetHasNavigationBar(this, false);
@@ -28,14 +29,6 @@ namespace KtMobileApp.Views
 			viewModel.CurrentLocation = "AGRA";
 			viewModel.Country = "India";
 
-			Weather weather = new Weather();
-			Task task = weather.GetWeather();
-
-			viewModel.Temprature = WeatherDto.Temprature;
-
-
-			BindingContext = viewModel;
-
 			BindingContext = viewModel;
 
         }
@@ -43,6 +36,8 @@ namespace KtMobileApp.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            //Start fetching async weather api.
+            viewModel.GetUpdatedWeather();
             NavigationPage.SetHasNavigationBar(this, false);
         }
     }
