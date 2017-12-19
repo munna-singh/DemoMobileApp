@@ -1,4 +1,5 @@
-﻿using KtMobileApp.ViewModels;
+﻿using KT.BusinessLayer;
+using KtMobileApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,13 @@ namespace KtMobileApp.Views
 			viewModel.BackImagePath = "TajMahal.jpg";
 			viewModel.CurrentLocation = "AGRA";
 			viewModel.Country = "India";
+
+			Weather weather = new Weather();
+			Task task = weather.GetWeather();
+
+			viewModel.Temprature = WeatherDto.Temprature;
+
+
 			BindingContext = viewModel;
 
 			BindingContext = viewModel;
