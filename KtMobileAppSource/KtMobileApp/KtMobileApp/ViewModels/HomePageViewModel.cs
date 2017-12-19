@@ -12,6 +12,7 @@ namespace KtMobileApp.ViewModels
 		public string BackImagePath { set; get; }
 		public string LocationImagePath { set; get; }
 		public string WeatherImagePath { set; get; }
+		public string Temprature { get; set; }
 
 		public ImageSource BackImage
 		{
