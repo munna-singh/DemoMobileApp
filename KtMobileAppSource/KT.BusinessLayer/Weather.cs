@@ -8,7 +8,7 @@ namespace KT.BusinessLayer
 {
     public class Weather
     {
-		public async Task GetWeather()
+		public async Task<string> GetWeather()
 		{
 			var locator = CrossGeolocator.Current;
 			locator.DesiredAccuracy = 100;
@@ -29,8 +29,10 @@ namespace KT.BusinessLayer
 			if (results["weather"] != null)
 			{
 
-				WeatherDto.Temprature = (string)results["main"]["temp"] + " F";
+				return (string)results["main"]["temp"] + " F";
 			}
+
+            return null;
 		}
 
 	}
