@@ -27,11 +27,17 @@ namespace KT.BusinessLayer
 
 			// Get the result from API
 			var results = await DataService.getDataFromService(queryString).ConfigureAwait(false);
-
+			
 			if (results["weather"] != null)
 			{
-				//Return Weather result
-				return (string)results["main"]["temp"] + " F";
+				var result = (string)results["main"]["temp"];
+
+				//Convert Temprature From Kelvin to F
+
+				var TempInFahrenheit = 9 / 5 * double.Parse(result) - 273 + 32;
+
+				//Return
+				return TempInFahrenheit.ToString();
 			}
 
             return null;
