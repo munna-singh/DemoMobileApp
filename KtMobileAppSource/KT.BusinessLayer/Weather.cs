@@ -34,7 +34,7 @@ namespace KT.BusinessLayer
 
 				//Convert Temprature From Kelvin to F
 
-				var TempInFahrenheit = 9 / 5 * double.Parse(result) - 273 + 32;
+				var TempInFahrenheit = 9 / 5 * double.Parse(result) - 273 + 32 +"F";
 
 				//Return
 				return TempInFahrenheit.ToString();
